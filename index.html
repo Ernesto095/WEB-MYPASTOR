@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frozca, SA de CV - Registro de Pedidos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <style>
+        .custom-red-select {
+            background-color: #dc2626;
+            color: white;
+            font-weight: bold;
+        }
+        .custom-red-select option {
+            background-color: white;
+            color: #1f2937;
+            font-weight: normal;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-3 md:p-6 text-gray-800">
+
+    <div class="max-w-5xl mx-auto bg-white rounded-xl shadow-md p-4 md:p-8">
+        
+        <div class="text-center border-b pb-4 mb-6">
+            <h1 class="text-2xl md:text-3xl font-bold text-gray-800">FROZCA, SA DE CV</h1>
+            <p class="text-sm text-gray-500 font-medium">Sistema de Control y Registro de Pedidos</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            
+            <div>
+                <label for="selectZona" class="block text-sm font-bold text-red-600 mb-1">
+                    <i class="fa-solid fa-location-dot"></i> Seleccionar Zona / Departamento:
+                </label>
+                <select id="selectZona" onchange="cargarClientesPorZona()" class="w-full p-3 rounded-lg border-2 border-red-500 custom-red-select focus:outline-none shadow-sm cursor-pointer">
+                    <option value="">-- Seleccione Zona --</option>
+                    <option value="San Salvador">SAN SALVADOR</option>
+                    <option value="San Vicente">SAN VICENTE</option>
+                    <option value="Sonsonate">SONSONATE</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="selectCliente" class="block text-sm font-bold text-gray-700 mb-1">
+                    <i class="fa-solid fa-user"></i> Cliente:
+                </label>
+                <select id="selectCliente" class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-red-500 focus:outline-none shadow-sm">
+                    <option value="">-- Seleccione primero una zona --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto mb-4">
+            <table class="w-full text-left border-collapse" id="tablaPedido">
+                <thead>
+                    <tr class="bg-gray-800 text-white text-xs md:text-sm">
+                        <th class="p-2 md:p-3 w-2/12">Código</th>
+                        <th class="p-2 md:p-3 w-4/12">Producto / Descripción</th>
+                        <th class="p-2 md:p-3 w-2/12 text-center">Cantidad</th>
+                        <th class="p-2 md:p-3 w-3/12">Observaciones</th>
+                        <th class="p-2 md:p-3 text-center w-1/12">Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpoTabla">
+                    </tbody>
+            </table>
+        </div>
+
+        <div class="mb-8">
+            <button type="button" onclick="agregarFila()" class="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-lg font-semibold text-sm transition-colors duration-200 flex items-center justify-center gap-2 shadow">
+                <i class="fa-solid fa-plus"></i> Agregar Casilla / Producto
+            </button>
+        </div>
+
+        <div class="border-t pt-6 flex flex-col md:flex-row justify-between items-center gap-3">
+            
+            <button type="button" onclick="limpiarFormulario()" class="w-full md:w-auto bg-gray-500 hover:bg-gray-600 text-white px-5 py-2.5 rounded-lg font-semibold text-sm transition-colors duration-200 flex items-center justify-center gap-2 shadow">
+                <i class="fa-solid fa-trash-can"></i> Limpiar Todo
+            </button>
+
+            <div class="w-full md:w-auto flex flex-wrap gap-2 justify-end">
+                <button type="button" onclick="exportarExcel()" class="flex-1 md:flex-none bg-emerald-700 hover:bg-emerald-800 text-white px-3 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 shadow">
+                    <i class="fa-solid fa-file-excel"></i> Excel
+                </button>
+                <button type="button" onclick="exportarPDF()" class="flex-1 md:flex-none bg-red-700 hover:bg-red-800 text-white px-3 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 shadow">
+                    <i class="fa-solid fa-file-pdf"></i> PDF
+                </button>
+                <button type="button" onclick="exportarWord()" class="flex-1 md:flex-none bg-blue-700 hover:bg-blue-800 text-white px-3 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 shadow">
+                    <i class="fa-solid fa-file-word"></i> Word
+                </button>
+                <button type="button" onclick="exportarTXT()" class="flex-1 md:flex-none bg-gray-700 hover:bg-gray-800 text-white px-3 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 shadow">
+                    <i class="fa-solid fa-file-lines"></i> Bloc de Notas
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // 1. BASE DE DATOS DE CLIENTES ACTUALIZADA SEGÚN ESPECIFICACIONES
+        const clientesPorZona = {
+            "San Salvador": [
+                "YENI ELIZABEHT ZAVALA",
+                "ZULMA ELIZABEHT ESCOBAR",
+                "ESTILO SALON, SA de CV / SUCURSAL 10 MERLIOT",
+                "ESTILO SALON, SA de CV / SUCURSAL 11 MULTIPLAZA",
+                "ANGELICA MARITZA ORELLANA, SA de CV / SUCURSAL 12 PASILLO LOS CINES",
+                "ANGELICA MARITZA ORELLANA, SA de CV / SUCURSAL 14 5° Eta. Neveria P.M. 2",
+                "ESTILO SALON, SA de CV / SUCURSAL 8 P.M. 2 CONTIGUO A MOVISTAR",
+                "ESTILO SALON, SA de CV / SUCURSAL 7 PM.1 FRENTE A SIMAN",
+                "GUILLERMO ANTONIO LOPEZ / CAFETERIA GETSEMANI",
+                "SANTOS MARISOL SANCHEZ / CAFETERIA ARCO IRIS.",
+                "MARIA ELENA ERAZO CASTANEDA / CAFETERIA METRO CAFE",
+                "ECSA OPERADORA DE EL SALVADOR / ESTACION ECSA EL MEDITERRANEO",
+                "OPERADORA DE EL SALVADOR, SA DE CV. UNO TRANSAL . ECSA",
+                "CORINA MARGARITA SOSA MENDEZ / PUMA POLIEDRO o DESVIO",
+                "CORINA MARGARITA SOSA MENDEZ / GASOLINERA PUMA",
+                "CARLOS FRANCISCO CIENFUEGOS ORTIZ / PANADERIA SAN LUIS",
+                "IRMA ANALIS CALVO / TIENDA SAN LUIS",
+                "D-GAS EL SALVADOR, SA de CV. LOURDES",
+                "FORZA ENERGY, SA de CV, Uno Pronto PASATIEMPO.",
+                "VISOR, SA de CV. / SUPER 7 PASATIEMPO"
+            ],
+            "San Vicente": [
+                "ANA MARIA MARTINEZ ALFARO / COMEDOR LAS DELICIAS",
+                "CLAUDIA MARCELA PASSASIN",
+                "MARIA DEL TRANSITO FIGUEROA",
+                "HUEZO ALVARO ENRIQUE / RESTAURANTE OCOTEPEC",
+                "JUAN RAMON GONZALES BARQUERO",
+                "EVELYN ISABEL AMAYA // DELICIAS PIZZA",
+                "VILMA ELIZABETH LOPEZ DE MOLINA / RESTAURANTE NE-KAL"
+            ],
+            "Sonsonate": [
+                "D-GAS EL SALVADOR, SA de CV. LOURDES",
+                "OPERADORA DE EL SALVADOR, SA DE CV. UNO TRANSAL",
+                "ATAGRISA SC.de RL / PRODUCTOS LACTEOS SAN JULIAN",
+                "FORZA ENERGY, SA de CV, Uno Pronto PASATIEMPO.",
+                "HERNANDEZ RIVAS,VIDAL DE JESUS / UNO ATECOZOL",
+                "BCO. IZALQUEÑO DE LOS TRABAJADORES",
+                "GRUPO NSV, Limitada de capital Variable,SA de CV. / TEXACO PARAISA / TIENDA.",
+                "GRUPO NSV, Limitada de capital Variable,SA de CV. / TEXACO PARAISAL CAFETERIA.",
+                "ASOCIACIÓN AGAPE DE EL SALVADOR / REST.DOÑA LAURA .",
+                "GRUPO NSV, SA.de CV. / TEXACO MODELO.",
+                "HERNANDEZ RIVAS, VIDAL DE JESUS / UNO LOS LEONES",
+                "BURGER HUOSE SA de CV.",
+                "FORZA ENERGY, SA DE CV. / COPAPAYO TIENDA .",
+                "GUTIRREZ DE SANCHEZ JUANA MARIA / COMEDOR EL PORTALITO",
+                "ABRAHAM ANTONIO HASBUN / CHIKEN STEAK",
+                "CORINA MARGARITA SOSA MENDEZ / PUMA POLIEDRO o DESVIO.",
+                "CARLOS FRANCISCO CIENFUEGOS ORTIZ / PANADERIA SAN LUIS",
+                "LOS PEREGRINOS, SA de CV. / PUMA NAHULINGO.",
+                "VILMA MILADY ORTIZ / LA CASONA GRILL.",
+                "FORZA ENERGY, SA de CV. / COPAPAYO CAFETERIA.",
+                "KATIA MARCELA MARIONA / REST. EBANO.",
+                "ECSA OPERADORA DE EL SALVADOR, SA DE CV. / UNO EL CAPULIN.",
+                "ECSA Operadora de El Salvador, SA de CV. / Pronto San Ramón.",
+                "MC & SB. Inversiones,SA de CV. / Boca Grill Lourdes.",
+                "Los Peregrinos, SA de CV. / Shell Café la nueva.",
+                "Los Peregrinos SA de CV. / Super 7 Izalco.",
+                "José Manuel Romero / Gran Plaza.",
+                "Forza Energy SA de CV. / Pronto la Joya."
+            ]
+        };
+
+        // 2. CATÁLOGO COMPLETO DE PRODUCTOS (CÓDIGO -> NOMBRE)
+        const productos = {
+            "39001": "Caja de Papas Corte Recto Normal de 3/8 6/5 Libras",
+            "ACEITE002": "Aceite Spray lata de 400 ml 1 Lata",
+            "ACEITE003": "Aceite Cazuela Bidon 17.5 Lts",
+            "ACEITE009": "Aceite de Oliva y Soya Mezcla 1 Galón",
+            "MSL003": "Margarina Superline Caja 30 Libras 1/30 Libras",
+            "UNI016": "Mayonesa Cocinaro Hellmann's 1 Galón",
+            "UNI006": "Mayonesa Real Hellmann's 1 Galón",
+            "UNI009": "Salsa de Tomate Ketchup Hellmann's 1 Galón",
+            "UNI012": "Salsa de Tomate Naturas 2.2 Kg",
+            "UNI007": "Queso Cheddar Hellman's 1 Litro",
+            "UNI002": "Consome de Res Continental Bolsa 3 Kg",
+            "UNI003": "Consome de Pollo Continental Bolsa 3 Kg",
+            "UNI008": "Empanizador Continental Sobre 18 Sobres",
+            "UNI013": "Pure de Papa Knorr Bolsa 800 Gr",
+            "UNI015": "Maizena Fecula de Maiz Bolsa 2.3 Kg",
+            "UNI010": "Sopa de Tortillas Knorr Sobre 12 Sobres",
+            "UNI011": "Base de Tomate Deshidratado Knorr Bolsa 500 Gr",
+            "BEB14": "Te Flor de Manzanilla Mc Cormick Caja 100 Sobres",
+            "MAY003": "Mayonesa Gourmet Bote 1 Galón",
+            "MAY005": "Mayonesa Pura Gourmet en Bolsa 1 Galón",
+            "ST002": "Salsa de Tomate Gourmet Bolsa 1 Galón",
+            "ST003": "Salsa de Tomate Gourmet Bote 1 Galón",
+            "ST004": "Ketchup Kerns 1 Galón",
+            "MOST002": "Mostaza Gourmet Bolsa 1 Galón",
+            "MOST04": "Mostaza Gourmet Bote 1 Galón",
+            "SI03": "Salsa Inglesa Gourmet 1 Galón",
+            "SOY": "Salsa de Soya Gourmet 1 Galón",
+            "VIN001": "Vinagre Blanco 1 Galón",
+            "MC1": "Salsa de Tomate Gourmet Sachette 500 ud",
+            "ESP01": "Canela en Raja 1 Onza",
+            "ESP03": "Sal de Ajo 1 Libra",
+            "ESP04": "Sal de Cebolla 1 Libra",
+            "ESP06": "Empanizador para Mariscos y Pescado 1 Libra",
+            "ESP07": "Empanizador S.A. 1 Libra",
+            "CON001": "Consomé de Camaron Clase A Robertoni 5 Libras",
+            "CON002": "Consomé de Camaron Clase B Robertoni 1 Libra",
+            "CON003": "Consomé de Pollo Sabor Amigo Clase B 1 Libra",
+            "CON004": "Consomé de Res Sabor Amigo Clase B 1 Libra",
+            "CON005": "Consomé de Pollo Sabor Amigo Premiun 1 Kilo",
+            "CON006": "Consomé de Res Sabor Amigo Premiun 1 Kilo",
+            "CON007": "Sazón Completa Sabor Amigo 1 Kilo",
+            "CHI001": "Salsa de Chile Jalisco Bote 60 ml",
+            "CHI002": "Salsa de Chile Jalisco Bote 148 ml",
+            "CHI003": "Salsa de Chile Jalisco 1 Galón",
+            "CHI005": "Chile Jalisco Sobre Caja 500 Sobres",
+            "SI02": "Salsa Inglesa Bote 148 Ml",
+            "SI01": "Salsa Inglesa Mc Cormick 1 Galón",
+            "BEB42": "Nectar Melocoton Lata 24 uds",
+            "BEB43": "Nectar de Pera Lata 24 uds",
+            "BEB44": "Nectar de Piña Lata 24 uds",
+            "BEB48": "Nectar de Manzana Lata 24 uds",
+            "BEB41": "Jugo de Tomate Lata 48 uds",
+            "BEB12": "Horchata con Leche Bolsa 5 Libras",
+            "BEB22": "Horchata de Morro Bolsa 5 Libras",
+            "LECH01": "Leche Condensada Nestle 1 Lata",
+            "BIO001": "Gabacha Mini Biodegradable 1000 uds",
+            "BIO002": "Gabacha # 1 Biodegradable 1000 uds",
+            "BIO003": "Gabacha # 2 Biodegradable 1000 uds",
+            "BIO004": "Gabacha # 3 Biodegradable 1000 uds",
+            "REM001": "Caja Removedor Bio P-Life Diapack 1000 uds",
+            "PAJ005": "Pajilla Biodegradable Forrada Caja 500",
+            "DES032": "Pajilla Forrada BIO 2500 und",
+            "AZU004": "Azucar Splenda Bolsa de 100 Ud",
+            "AZU005": "Caja de Azucar Sobre Generica 16/150 uds",
+            "CAJA": "Caja de Sal en Sobre 20/500 uds",
+            "PIM": "Bolsa de Pimienta en Sobrecitos 1/500 uds",
+            "CAFE01": "Café de Ahuachapan 1 Libra",
+            "CREM002": "Cremora Cremafe Sobrecitos 1/200 uds",
+            "CREM003": "Cremora Coffe Mate sobre individual 1/200 uds",
+            "KIM001": "Servilleta Scott Dispensador 24/100 uds",
+            "KIM007": "Wypall x 80 color",
+            "KIM011": "Papel Higienico Interfoliado Scott 36/250 uds",
+            "KIM018": "Toalla Roll Scott Slimroll WH 6X580",
+            "KIM027": "Jumbo Roll Manila",
+            "TER010": "Bolsa 1 libra",
+            "TER012": "Bolsa 5 libras",
+            "TER030": "Bolsa Gabacha # 1",
+            "TER031": "Bolsa Gabacha # 2",
+            "TER015": "Bolsa Gabacha # 3",
+            "TER001": "Bolsa Jardinera",
+            "TER004": "Bolsa 1/2 Jardin",
+            "TER021": "Bolsa Charamusca",
+            "TER002": "Polipel Rollo",
+            "DES017": "Bandeja 8x8 c/d",
+            "DES021": "Bandeja Hot-Dog",
+            "DES015": "Plato N° 9",
+            "DES013": "Plato N° 6",
+            "DES030": "Vaso 8oz.",
+            "DES003": "Tenedor N° 4",
+            "DES002": "Cuchara N° 4",
+            "PAJ001": "Pajilla Forrada",
+            "QUI02": "Jabón Perlado",
+            "QUI010": "Lejia 6%",
+            "DES034": "Escoba Super Nena",
+            "DES044": "Trapeador de toalla",
+            "SER001": "Servilleta Disp. 1/24",
+            "QUI034": "Guante Nitrilo Negro M",
+            "QUI071": "Mopa Trapeador",
+            "REM02": "Removedor libra"
+        };
+
+        // Cargar Clientes según la Zona elegida
+        function cargarClientesPorZona() {
+            const zonaSelect = document.getElementById("selectZona").value;
+            const clienteSelect = document.getElementById("selectCliente");
+            
+            clienteSelect.innerHTML = '<option value="">-- Seleccione Cliente --</option>';
+
+            if (zonaSelect && clientesPorZona[zonaSelect]) {
+                clientesPorZona[zonaSelect].forEach(cliente => {
+                    const opt = document.createElement("option");
+                    opt.value = cliente;
+                    opt.textContent = cliente;
+                    clienteSelect.appendChild(opt);
+                });
+            }
+        }
+
+        // Agregar Fila Ilimitada a la Tabla
+        function agregarFila() {
+            const tbody = document.getElementById("cuerpoTabla");
+            const tr = document.createElement("tr");
+            tr.className = "border-b hover:bg-gray-50 text-sm";
+
+            tr.innerHTML = `
+                <td class="p-2">
+                    <input type="text" placeholder="Ej: UNI016" oninput="autocompletarProducto(this)" 
+                        class="w-full p-2 border rounded uppercase focus:ring-1 focus:ring-red-500 text-xs md:text-sm">
+                </td>
+                <td class="p-2">
+                    <input type="text" placeholder="Nombre del producto" readonly 
+                        class="nombre-prod w-full p-2 bg-gray-100 border rounded text-xs md:text-sm font-medium text-gray-700">
+                </td>
+                <td class="p-2">
+                    <input type="number" min="1" value="1" placeholder="Cant." 
+                        class="w-full p-2 border rounded focus:ring-1 focus:ring-red-500 text-xs md:text-sm text-center">
+                </td>
+                <td class="p-2">
+                    <input type="text" placeholder="Opcional..." 
+                        class="w-full p-2 border rounded focus:ring-1 focus:ring-red-500 text-xs md:text-sm">
+                </td>
+                <td class="p-2 text-center">
+                    <button type="button" onclick="eliminarFila(this)" class="text-red-500 hover:text-red-700 px-2 py-1">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </td>
+            `;
+
+            tbody.appendChild(tr);
+        }
+
+        // Autocompletar Descripción por Código
+        function autocompletarProducto(inputCodigo) {
+            const codigo = inputCodigo.value.trim().toUpperCase();
+            const fila = inputCodigo.closest("tr");
+            const inputNombre = fila.querySelector(".nombre-prod");
+
+            if (productos[codigo]) {
+                inputNombre.value = productos[codigo];
+            } else {
+                inputNombre.value = "";
+            }
+        }
+
+        // Eliminar Fila
+        function eliminarFila(btn) {
+            btn.closest("tr").remove();
+        }
+
+        // Limpiar Formulario Completo
+        function limpiarFormulario() {
+            document.getElementById("selectZona").value = "";
+            document.getElementById("selectCliente").innerHTML = '<option value="">-- Seleccione primero una zona --</option>';
+            document.getElementById("cuerpoTabla").innerHTML = "";
+            agregarFila(); // Deja una fila vacía por defecto
+        }
+
+        // OBTENER DATOS PARA EXPORTACIÓN
+        function obtenerDatosTabla() {
+            const zona = document.getElementById("selectZona").value;
+            const cliente = document.getElementById("selectCliente").value;
+            const filas = document.querySelectorAll("#cuerpoTabla tr");
+            
+            let items = [];
+            filas.forEach(fila => {
+                const inputs = fila.querySelectorAll("input");
+                const codigo = inputs[0].value.trim();
+                const descripcion = inputs[1].value.trim();
+                const cantidad = inputs[2].value.trim();
+                const observaciones = inputs[3].value.trim();
+
+                if (codigo || descripcion) {
+                    items.push([codigo, descripcion, cantidad, observaciones]);
+                }
+            });
+
+            return { zona, cliente, items };
+        }
+
+        // EXPORTAR A EXCEL
+        function exportarExcel() {
+            const { zona, cliente, items } = obtenerDatosTabla();
+            if (!cliente) { alert("Por favor seleccione un cliente."); return; }
+
+            const data = [
+                ["FROZCA, SA DE CV"],
+                ["Zona / Depto:", zona],
+                ["Cliente:", cliente],
+                [],
+                ["Código", "Descripción", "Cantidad", "Observaciones"]
+            ];
+
+            items.forEach(item => data.push(item));
+
+            const ws = XLSX.utils.aoa_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, "Pedido");
+            XLSX.writeFile(wb, `Pedido_${cliente}.xlsx`);
+        }
+
+        // EXPORTAR A PDF
+        function exportarPDF() {
+            const { jsPDF } = window.jspdf;
+            const { zona, cliente, items } = obtenerDatosTabla();
+            if (!cliente) { alert("Por favor seleccione un cliente."); return; }
+
+            const doc = new jsPDF();
+            doc.setFontSize(16);
+            doc.text("FROZCA, SA DE CV", 14, 15);
+            doc.setFontSize(11);
+            doc.text(`Zona / Depto: ${zona}`, 14, 23);
+            doc.text(`Cliente: ${cliente}`, 14, 29);
+
+            doc.autoTable({
+                startY: 35,
+                head: [['Código', 'Descripción del Producto', 'Cantidad', 'Observaciones']],
+                body: items,
+                headStyles: { fillColor: [220, 38, 38] }
+            });
+
+            doc.save(`Pedido_${cliente}.pdf`);
+        }
+
+        // EXPORTAR A WORD
+        function exportarWord() {
+            const { zona, cliente, items } = obtenerDatosTabla();
+            if (!cliente) { alert("Por favor seleccione un cliente."); return; }
+
+            let contenido = `
+                <h2 style="text-align:center;">FROZCA, SA DE CV</h2>
+                <p><b>Zona / Depto:</b> ${zona}</p>
+                <p><b>Cliente:</b> ${cliente}</p>
+                <table border="1" style="border-collapse:collapse; width:100%;">
+                    <tr style="background:#dc2626; color:white;">
+                        <th>Código</th><th>Descripción</th><th>Cantidad</th><th>Observaciones</th>
+                    </tr>
+            `;
+
+            items.forEach(item => {
+                contenido += `<tr><td>${item[0]}</td><td>${item[1]}</td><td>${item[2]}</td><td>${item[3]}</td></tr>`;
+            });
+
+            contenido += "</table>";
+
+            const blob = new Blob(['\ufeff' + contenido], { type: 'application/msword' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Pedido_${cliente}.doc`;
+            a.click();
+        }
+
+        // EXPORTAR A BLOC DE NOTAS (.TXT)
+        function exportarTXT() {
+            const { zona, cliente, items } = obtenerDatosTabla();
+            if (!cliente) { alert("Por favor seleccione un cliente."); return; }
+
+            let texto = `========================================\n`;
+            texto += `           FROZCA, SA DE CV             \n`;
+            texto += `========================================\n`;
+            texto += `Zona / Depto: ${zona}\n`;
+            texto += `Cliente     : ${cliente}\n`;
+            texto += `========================================\n\n`;
+            texto += `DETALLE DEL PEDIDO:\n`;
+            texto += `----------------------------------------\n`;
+
+            items.forEach((item, index) => {
+                texto += `${index + 1}. [${item[0]}] ${item[1]}\n`;
+                texto += `   Cantidad: ${item[2]}\n`;
+                if (item[3]) {
+                    texto += `   Observaciones: ${item[3]}\n`;
+                }
+                texto += `----------------------------------------\n`;
+            });
+
+            const blob = new Blob([texto], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Pedido_${cliente}.txt`;
+            a.click();
+        }
+
+        // Inicializar con 1 fila por defecto al cargar
+        window.onload = function() {
+            agregarFila();
+        };
+    </script>
+</body>
+</html>
