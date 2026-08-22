@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
     <style>
         .custom-red-select {
@@ -60,10 +59,9 @@
             <table class="w-full text-left border-collapse" id="tablaPedido">
                 <thead>
                     <tr class="bg-gray-800 text-white text-xs md:text-sm">
-                        <th class="p-2 md:p-3 w-2/12">Código</th>
-                        <th class="p-2 md:p-3 w-4/12">Producto / Descripción</th>
+                        <th class="p-2 md:p-3 w-3/12">Código</th>
+                        <th class="p-2 md:p-3 w-7/12">Producto / Descripción</th>
                         <th class="p-2 md:p-3 w-2/12 text-center">Cantidad</th>
-                        <th class="p-2 md:p-3 w-3/12">Observaciones</th>
                         <th class="p-2 md:p-3 text-center w-1/12">Acción</th>
                     </tr>
                 </thead>
@@ -72,10 +70,18 @@
             </table>
         </div>
 
-        <div class="mb-8">
+        <div class="mb-6">
             <button type="button" onclick="agregarFila()" class="w-full md:w-auto bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-lg font-semibold text-sm transition-colors duration-200 flex items-center justify-center gap-2 shadow">
                 <i class="fa-solid fa-plus"></i> Agregar Casilla / Producto
             </button>
+        </div>
+
+        <!-- CUADRO DE OBSERVACIONES GENERALES DEL PEDIDO -->
+        <div class="mb-8">
+            <label for="txtObservaciones" class="block text-sm font-bold text-gray-700 mb-2">
+                <i class="fa-solid fa-comment-dots"></i> Observaciones Generales del Pedido:
+            </label>
+            <textarea id="txtObservaciones" rows="3" placeholder="Escriba aquí cualquier nota u observación general sobre este pedido..." class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:outline-none shadow-sm text-sm"></textarea>
         </div>
 
         <div class="border-t pt-6 flex flex-col md:flex-row justify-between items-center gap-3">
@@ -84,18 +90,9 @@
                 <i class="fa-solid fa-trash-can"></i> Limpiar Todo
             </button>
 
-            <div class="w-full md:w-auto flex flex-wrap gap-2 justify-end">
-                <button type="button" onclick="exportarExcel()" class="flex-1 md:flex-none bg-emerald-700 hover:bg-emerald-800 text-white px-3 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 shadow">
-                    <i class="fa-solid fa-file-excel"></i> Excel
-                </button>
-                <button type="button" onclick="exportarPDF()" class="flex-1 md:flex-none bg-red-700 hover:bg-red-800 text-white px-3 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 shadow">
+            <div class="w-full md:w-auto flex justify-end">
+                <button type="button" onclick="exportarPDF()" class="w-full md:w-auto bg-red-700 hover:bg-red-800 text-white px-6 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 shadow">
                     <i class="fa-solid fa-file-pdf"></i> PDF
-                </button>
-                <button type="button" onclick="exportarWord()" class="flex-1 md:flex-none bg-blue-700 hover:bg-blue-800 text-white px-3 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 shadow">
-                    <i class="fa-solid fa-file-word"></i> Word
-                </button>
-                <button type="button" onclick="exportarTXT()" class="flex-1 md:flex-none bg-gray-700 hover:bg-gray-800 text-white px-3 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 shadow">
-                    <i class="fa-solid fa-file-lines"></i> Bloc de Notas
                 </button>
             </div>
         </div>
@@ -225,12 +222,9 @@
             ]
         };
 
-        // CATÁLOGO COMPLETO Y EXTRAÍDO DE LAS IMÁGENES
+        // CATÁLOGO COMPLETO
         const productos = {
-            // PRODUCTO CONGELADO
             "39001": "Caja de Papas Corte Recto Normal de 3/8",
-            
-            // PRODUCTOS UNILEVER
             "UNI016": "Mayonesa Cocineros Hellmann's",
             "UNI006": "Mayonesa Real Hellmann's",
             "UNI009": "Salsa de Tomate Ketchup Hellmann's (4.2Kg)",
@@ -242,11 +236,7 @@
             "UNI015": "Maizena - Fecula de Maiz - Bolsa de 2.3 Kg",
             "UNI010": "Sopa de Tortillas Knorr - Sobre 60 Gr c/u",
             "UNI011": "Base de Tomate Deshidratado Knorr, Bolsa 500gr",
-
-            // TE EN INFUSION
             "BEB14": "Te Flor de Manzanilla (McCormick), Caja 100 Sobres",
-
-            // ADEREZOS Y SALSAS
             "MAY003": "Mayonesa Gourmet Bote",
             "MAY005": "Mayonesa Pura Gourmet en Bolsa",
             "ST002": "Salsa de Tomate Gourmet Bolsa",
@@ -259,22 +249,16 @@
             "SOY01": "Salsa de Soya Sobre",
             "VIN001": "Vinagre Blanco",
             "MC1": "Salsa de Tomate Gourmet Sachette (Sobre)",
-
-            // ESPECIES
             "ESP01": "Canela en Raja",
             "ESP03": "Sal de Ajo",
             "ESP04": "Sal de Cebolla",
             "ESP06": "Empanizador para Mariscos y Pescado",
             "ESP07": "Empanizador S.A.",
-
-            // ACEITE Y MANTECAS
             "ACEITE002": "Aceite Spray lata de 400 ml",
             "ACEITE003": "Aceite Cazuela Bidon",
             "ACEITE009": "Aceite de Oliva y Soya Mezcla",
             "MSL": "Margarina Superline Caja 30 Libras",
             "MSL01": "Margarina Superline Caja 24 Libras",
-
-            // CONSOMES
             "CON001": "Consomé de Camaron Clase A, Robertoni",
             "CON002": "Consomé de Camaron Clase B, Robertoni",
             "CON003": "Consomé de Pollo Sabor Amigo Clase B",
@@ -282,32 +266,20 @@
             "CON005": "Consomé de Pollo Sabor Amigo Premiun",
             "CON006": "Consomé de Res Sabor Amigo Premiun",
             "CON007": "Sazón Completa Sabor Amigo",
-
-            // CHILES Y SALSA INGLESA
             "CHI001": "Salsa de Chile Jalisco Bote de 60 ml",
             "CHI002": "Salsa de Chile Jalisco Bote de 148 ml",
             "CHI003": "Salsa de Chile Jalisco",
             "CHI005": "Chile Jalisco Sobre, Caja 500 Sobres de 5 Ml",
             "SI02": "Salsa Inglesa Bote 148 Ml",
             "SI01": "Salsa Inglesa Mc Cormick",
-
-            // NECTAR EN LATA
             "BEB42": "Nectar Melocoton Lata",
             "BEB43": "Nectar de Pera Lata",
             "BEB44": "Nectar de Piña Lata",
             "BEB48": "Nectar de Manzana Lata",
-
-            // JUGOS DE TOMATE
             "BEB41": "Jugo de Tomate Lata",
-
-            // HORCHATAS
             "BEB12": "Horchata con Leche Bolsa",
             "BEB22": "Horchata de Morro Bolsa",
-
-            // LECHES
             "LECH01": "Leche Condensada Nestle",
-
-            // AZUCAR, SAL, CREMORA, CAFE, FILM, ALUMINIO, PAJILLAS
             "AZU004": "Azucar Splenda Bolsa de 100 Ud",
             "AZU005": "Caja de Azucar Sobre Generica",
             "CAJA": "Caja de Sal en Sobre",
@@ -343,18 +315,12 @@
             "FANS019": "Maiz Dulce",
             "FANS021": "Guisantes o Chicharo",
             "PAA003": "Papel Aluminio interfoliado (12\"x10.75\")",
-
-            // DEPOSITOS CON SUS TAPADERAS
             "DES047": "Deposito 1 oz Transparente Solo Cup",
             "DES048": "Tapadera 1oz Transparente Solo Cup",
             "DES035": "Deposito de 2.5 Set tapa incluida",
-
-            // BIODEGRADABLE
             "REM001": "Caja Removedor Bio P-Life Diapack",
             "PAJ005": "Pajilla Biodegradable Forrada",
             "DES032": "Pajilla Forrada BIO 2500 und",
-
-            // DESECHABLES BEBIDA CALIENTE
             "NEST13": "Vaso 8 oz Bebida Caliente con Agarradera",
             "NEST14": "Vaso 8 oz Bebida Caliente - Doble Pared",
             "NEST09": "Tapa 8 oz - Solo Cup",
@@ -362,8 +328,6 @@
             "NEST24": "Vaso 12 oz Solo Cup Beb Caliente",
             "NEST17": "Vaso 16 oz Solo Cup Beb Caliente",
             "NEST18": "Tapa 12 y 16 oz - Solo Cup",
-
-            // DESECHABLES PARA FROZEN Y BEBIDAS FRIAS
             "NEST19": "Vaso 12 oz Cristal",
             "NEST20": "Vaso 14 oz Cristal",
             "NEST21": "Vaso 16 oz Cristal",
@@ -372,8 +336,6 @@
             "DES092": "Vaso Polipapel Decorado 16 oz con Tapadara",
             "DES094": "Vaso Polipapel Decorado 21 oz con Tapadara",
             "NEST23": "Tapa Plana para vaso cristal 12 - 14 - 16 onz",
-
-            // CONOS - COBERTOR - GUANTES PARA ALIMENTOS
             "QUI018": "Guantes de Alimentos Caja",
             "QUI052": "Guante de Latex S",
             "QUI053": "Guante de Latex M",
@@ -385,14 +347,10 @@
             "DES029": "Cobertor Acordeon Blanco Tipo Gusano",
             "DES046": "Cono Encerado 5000 Udades",
             "DES109": "Cono Gigante de 4.5 onz",
-
-            // TAPADERAS PARA VASOS
             "DES025": "Tapadera para Vaso 6 oz",
             "DES026": "Tapadera para Vaso 8 oz",
             "DES027": "Tapadera para Vaso 10 y 12 oz",
             "DES070": "Tapadera para Vaso 16 oz",
-
-            // DESECHABLES
             "DES001": "Cuchara Sopera",
             "DES002": "Cuchara # 4",
             "DES003": "Tenedor # 4",
@@ -403,24 +361,18 @@
             "DES102": "Kit de Tenedor - Cuchillo y Servilleta - Negro",
             "DES105": "Combo Cuchara Sopera Servilleta",
             "DES106": "Combo Cucharita # 2",
-
-            // VASOS
             "DES022": "Vaso Dipsa 4 oz",
             "DES056": "Vaso Dipsa 6 oz",
             "DES030": "Vaso Dipsa 8 oz",
             "DES011": "Vaso Dipsa 10 oz",
             "DES012": "Vaso Dipsa 12 oz",
             "DES023": "Vaso Dipsa 16 oz",
-
-            // PLATOS Y SOPEROS
             "DES013": "Plato # 6 Fom Liso 500 Uds",
             "DES014": "Plato # 7 Fom Liso 500 Uds",
             "DES015": "Plato # 9 Fom Liso 500 Uds",
             "DES016": "Plato Hondo # 6 Fom Liso 500 Uds",
             "DES018": "Sopero 32 oz Caja de 10 Paquetes de 25 Uds",
             "DES019": "Sopero 16 oz Caja de 20 Paquetes de 25 Uds",
-
-            // BANDEJAS
             "DES021": "Bandeja para Hot Dog 500 Uds",
             "DES088": "Bandeja # 1",
             "DES007": "Bandeja # 2 para Taco",
@@ -432,8 +384,6 @@
             "DES020": "Bandeja 6x6 Fardo",
             "DES091": "Bandeja 6 x 6 Delibisagra Transparente 200 Uds",
             "DES104": "Bandeja Delibisagra para postre Triangular",
-
-            // SERVILLETAS
             "SER001": "Servilleta Dispensador Rectangular",
             "SER002": "Servilleta Cuadrada",
             "SER005": "Servilleta Cuadrada TERSO",
@@ -442,8 +392,6 @@
             "KIM017": "Servilleta Scott de Lujo",
             "KIM020": "Servilleta Kleenex Interfoliada Pop Up Doble Hoja",
             "KIM037": "Servilleta Kleenex POP UP FS doble hoja",
-
-            // BOLSAS
             "TER001": "Bolsa Jardinera Negra 34x50",
             "TER004": "Bolsa 1/2 Jardin Negra",
             "TER016": "Bolsa Jardinera Transparente",
@@ -467,17 +415,11 @@
             "TER003": "Rollo de Bolsa 10X13 (Traslucida)",
             "TER002": "Rollos de Polipel Cortado",
             "STRECH": "Strech Film",
-
-            // SANITIZANTE
             "QUI097": "Sanitizante DES-5000",
             "QUI099": "Sanitizante D-5000 a base de Alcohol",
             "ATOM01": "Atomizador de 16 on",
             "ATOM02": "Atomizador de 32 on",
-
-            // INSECTICIDAS
             "QUI041": "Insect Moscas y Zancudos (Raid Aerosol)",
-
-            // AMBIENTALES
             "QUI058": "Deleite Floral y Frutos Rojos Ambiental Glade Spray 9 oz",
             "QUI059": "Manzana/Canela Ambiental Glade Spray 9 oz",
             "QUI060": "Lavanda Ambiental Glade Spray 9 oz",
@@ -492,8 +434,6 @@
             "QUI049": "Repuesto Glade Frutos Rojos",
             "QUI050": "Repuesto Aplicador Abrazos Vainilla - Lavanda Vainilla",
             "QUI051": "Repuesto Aplicador Hawaian Breeze",
-
-            // UTENSILIOS DE LIMPIEZA
             "DES028": "Mascon Verde",
             "QUI013": "Mascon Esponja Scotch Paq 2 un",
             "QUI029": "Mascon Doble Cara 2 Pack",
@@ -509,16 +449,12 @@
             "DES071": "Recolector de Liquido para Piso",
             "QUI074": "Cepillo de Plancha",
             "DES033": "Microfibra Amarilla",
-
-            // MOPAS, MECHAS Y PALOS PARA MOPAS
             "QUI066": "Mecha Regular Azul",
             "QUI067": "Mecha Natural",
             "QUI071": "Mopa Mecha Fina",
             "QUI072": "Marco para Mopa",
             "QUI073": "Palo Conector para Mopa",
             "QUI078": "Palo para Mecha Cabeza Plastica",
-
-            // DESINFECTANTES Y OTROS QUIMICOS (¡Aquí está QUI009!)
             "JAB003": "Jabon Maya Paquete de 12 Unidades",
             "QUI001": "Jabón Liquido",
             "QUI002": "Jabón Perlado Florar",
@@ -548,8 +484,6 @@
             "QUI016": "Alcohol Gel",
             "QUI033": "Desengrasante Multiusos Olimpo Atomizador",
             "QUI043": "Mr Musculo Antigrasa Naranja Atomizador",
-
-            // DETERGENTES Y JABONES
             "QUI019": "Detergente Larianza con Aroma",
             "QUI081": "Detergente Industrial Larianza - sin aroma",
             "QUI065": "Jabon Liquido Lava ROPA - sin aroma ni color",
@@ -557,8 +491,6 @@
             "QUI014": "Jabon Liquido Lava Platos",
             "QUI055": "Guante Amarillo para Limpieza talla M",
             "QUI056": "Guante Amarillo para Limpieza talla L",
-
-            // PAPEL HIGIENICO
             "KIM025": "Papel Higienico Scott- rollito (200 HD)",
             "KIM015": "Papel Higienico Kleenex - rollito C/Aroma (450 HD)",
             "KIM004": "Papel Higienico Scott Jumbo Roll 1 Hoja",
@@ -571,8 +503,6 @@
             "KIM028": "Papel Higienico Scott CenterPull Doble Hoja",
             "KIM011": "Papel Higienico Interfoliado Scott (Descontinuado)",
             "KIM063": "Papel Higienico Mini JRT 6x4x150mt (Para liquidar)",
-
-            // PAPEL TOALLA
             "KIM008": "Toalla Interfoliada Kleenex Premium 2 hojas",
             "KIM012": "Toalla Interfoliada Kleenex HD",
             "KIM022": "Toalla Scott Interfoliada",
@@ -584,8 +514,6 @@
             "KIM088": "Papel Toalla Scott Basic Airflex",
             "KIM023": "Kit Toalla Scott + Dispensador 4x200mts",
             "KIM033": "Papel Toalla Scott CenterPull 1 Hoja 200 mts",
-
-            // WYPALLS
             "KIM082": "Wypall Azul X80 Paños de Limpieza 35x42 cm",
             "KIM083": "Wypall Rojo X80 Paños de Limpieza 35x42 cm",
             "KIM084": "Wypall Amarillo X80 Paños de Limpieza 35x42 cm",
@@ -597,8 +525,6 @@
             "KIM052": "Wypall L10 Food Contact fardo 6x 500 hojas",
             "KIM038": "Wypall L10 Paquetito x 200 toallas",
             "KIM042": "Wypall Scott paquetico x 150 toallas",
-
-            // FACIALES, JABONES Y BACTISAN
             "KIM010": "Facial Kleenex Ejecutivo",
             "KIM032": "Facial Kleenex Junior",
             "KIM021": "Facial Kleenex Cubo",
@@ -611,8 +537,6 @@
             "KIM016": "Bactisan Spray 400 Ml",
             "KIM034": "Jabon Scott sin Olor/Color Spray 400 ml",
             "KIM024": "Bactisan Espuma Electronico 1000ml",
-
-            // DISPENSADORES KCP
             "DIS005": "Dispensador Jumbo Roll Higienico - KCC",
             "DIS007": "Dispensador Jabon Spray 400 ML - KCC",
             "DIS003": "Dispensador Jabon Espuma Dermo 800 ml - KCC",
@@ -625,15 +549,11 @@
             "DIS014": "Dispensador Servilletas Pedestal KCC",
             "DIS016": "Dispensador Servilletas Advertaising KCC",
             "DIS013": "Dispensador Pap Higienico Centerpull",
-
-            // PRODUCTOS ENCANTO
             "ALAS02": "Papel Higienico Encanto 1 Hoja",
             "ALAS03": "Papel Higienico Encanto Hoja Sencilla",
             "ALAS04": "Papel Higienico Encanto Doble Hoja",
             "ALAS05": "Papel Toalla Encanto (2 pack)",
             "ALAS06": "Papel Toalla Mayordomo Carmens",
-
-            // DISPENSADORES ALAS
             "DIS001": "Dispensador de Papel Higienco Roll",
             "DIS004": "Dispensador de Papel Toalla Roll Palanca"
         };
@@ -674,10 +594,6 @@
                     <input type="number" min="1" value="1" placeholder="Cant." 
                         class="w-full p-2 border rounded focus:ring-1 focus:ring-red-500 text-xs md:text-sm text-center">
                 </td>
-                <td class="p-2">
-                    <input type="text" placeholder="Opcional..." 
-                        class="w-full p-2 border rounded focus:ring-1 focus:ring-red-500 text-xs md:text-sm">
-                </td>
                 <td class="p-2 text-center">
                     <button type="button" onclick="eliminarFila(this)" class="text-red-500 hover:text-red-700 px-2 py-1">
                         <i class="fa-solid fa-xmark text-lg"></i>
@@ -710,6 +626,7 @@
         function limpiarFormulario() {
             document.getElementById("selectZona").value = "";
             document.getElementById("selectCliente").innerHTML = '<option value="">-- Seleccione primero una zona --</option>';
+            document.getElementById("txtObservaciones").value = "";
             document.getElementById("cuerpoTabla").innerHTML = "";
             agregarFila();
         }
@@ -718,6 +635,7 @@
         function obtenerDatosTabla() {
             const zona = document.getElementById("selectZona").value;
             const cliente = document.getElementById("selectCliente").value;
+            const observacionesGenerales = document.getElementById("txtObservaciones").value.trim();
             const filas = document.querySelectorAll("#cuerpoTabla tr");
             
             let items = [];
@@ -726,41 +644,19 @@
                 const codigo = inputs[0].value.trim();
                 const descripcion = inputs[1].value.trim();
                 const cantidad = inputs[2].value.trim();
-                const observaciones = inputs[3].value.trim();
 
                 if (codigo || descripcion) {
-                    items.push([codigo, descripcion, cantidad, observaciones]);
+                    items.push([codigo, descripcion, cantidad]);
                 }
             });
 
-            return { zona, cliente, items };
+            return { zona, cliente, observacionesGenerales, items };
         }
 
-        // Exportar a Excel
-        function exportarExcel() {
-            const { zona, cliente, items } = obtenerDatosTabla();
-            if (!cliente) { alert("Por favor seleccione un cliente."); return; }
-
-            const data = [
-                ["FROZCA, SA DE CV"],
-                ["Zona / Depto:", zona],
-                ["Cliente:", cliente],
-                [],
-                ["Código", "Descripción", "Cantidad", "Observaciones"]
-            ];
-
-            items.forEach(item => data.push(item));
-
-            const ws = XLSX.utils.aoa_to_sheet(data);
-            const wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, "Pedido");
-            XLSX.writeFile(wb, `Pedido_${cliente}.xlsx`);
-        }
-
-        // Exportar a PDF
+        // Exportar únicamente a PDF
         function exportarPDF() {
             const { jsPDF } = window.jspdf;
-            const { zona, cliente, items } = obtenerDatosTabla();
+            const { zona, cliente, observacionesGenerales, items } = obtenerDatosTabla();
             if (!cliente) { alert("Por favor seleccione un cliente."); return; }
 
             const doc = new jsPDF();
@@ -772,72 +668,21 @@
 
             doc.autoTable({
                 startY: 35,
-                head: [['Código', 'Descripción del Producto', 'Cantidad', 'Observaciones']],
+                head: [['Código', 'Descripción del Producto', 'Cantidad']],
                 body: items,
                 headStyles: { fillColor: [220, 38, 38] }
             });
 
+            if (observacionesGenerales) {
+                const finalY = doc.lastAutoTable.finalY || 40;
+                doc.setFontSize(10);
+                doc.setFont(undefined, 'bold');
+                doc.text("Observaciones Generales:", 14, finalY + 10);
+                doc.setFont(undefined, 'normal');
+                doc.text(doc.splitTextToSize(observacionesGenerales, 180), 14, finalY + 16);
+            }
+
             doc.save(`Pedido_${cliente}.pdf`);
-        }
-
-        // Exportar a Word
-        function exportarWord() {
-            const { zona, cliente, items } = obtenerDatosTabla();
-            if (!cliente) { alert("Por favor seleccione un cliente."); return; }
-
-            let contenido = `
-                <h2 style="text-align:center;">FROZCA, SA DE CV</h2>
-                <p><b>Zona / Depto:</b> ${zona}</p>
-                <p><b>Cliente:</b> ${cliente}</p>
-                <table border="1" style="border-collapse:collapse; width:100%;">
-                    <tr style="background:#dc2626; color:white;">
-                        <th>Código</th><th>Descripción</th><th>Cantidad</th><th>Observaciones</th>
-                    </tr>
-            `;
-
-            items.forEach(item => {
-                contenido += `<tr><td>${item[0]}</td><td>${item[1]}</td><td>${item[2]}</td><td>${item[3]}</td></tr>`;
-            });
-
-            contenido += "</table>";
-
-            const blob = new Blob(['\ufeff' + contenido], { type: 'application/msword' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `Pedido_${cliente}.doc`;
-            a.click();
-        }
-
-        // Exportar a Bloc de Notas (.txt)
-        function exportarTXT() {
-            const { zona, cliente, items } = obtenerDatosTabla();
-            if (!cliente) { alert("Por favor seleccione un cliente."); return; }
-
-            let texto = `========================================\n`;
-            texto += `           FROZCA, SA DE CV             \n`;
-            texto += `========================================\n`;
-            texto += `Zona / Depto: ${zona}\n`;
-            texto += `Cliente     : ${cliente}\n`;
-            texto += `========================================\n\n`;
-            texto += `DETALLE DEL PEDIDO:\n`;
-            texto += `----------------------------------------\n`;
-
-            items.forEach((item, index) => {
-                texto += `${index + 1}. [${item[0]}] ${item[1]}\n`;
-                texto += `   Cantidad: ${item[2]}\n`;
-                if (item[3]) {
-                    texto += `   Observaciones: ${item[3]}\n`;
-                }
-                texto += `----------------------------------------\n`;
-            });
-
-            const blob = new Blob([texto], { type: 'text/plain;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `Pedido_${cliente}.txt`;
-            a.click();
         }
 
         window.onload = function() {
