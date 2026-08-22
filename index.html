@@ -68,7 +68,7 @@
                     </tr>
                 </thead>
                 <tbody id="cuerpoTabla">
-                    </tbody>
+                </tbody>
             </table>
         </div>
 
@@ -103,172 +103,539 @@
     </div>
 
     <script>
-        // 1. BASE DE DATOS DE CLIENTES ACTUALIZADA SEGÚN ESPECIFICACIONES
+        // BASE DE DATOS DE CLIENTES POR ZONA
         const clientesPorZona = {
             "San Salvador": [
-                "YENI ELIZABEHT ZAVALA",
-                "ZULMA ELIZABEHT ESCOBAR",
-                "ESTILO SALON, SA de CV / SUCURSAL 10 MERLIOT",
-                "ESTILO SALON, SA de CV / SUCURSAL 11 MULTIPLAZA",
-                "ANGELICA MARITZA ORELLANA, SA de CV / SUCURSAL 12 PASILLO LOS CINES",
-                "ANGELICA MARITZA ORELLANA, SA de CV / SUCURSAL 14 5° Eta. Neveria P.M. 2",
-                "ESTILO SALON, SA de CV / SUCURSAL 8 P.M. 2 CONTIGUO A MOVISTAR",
-                "ESTILO SALON, SA de CV / SUCURSAL 7 PM.1 FRENTE A SIMAN",
-                "GUILLERMO ANTONIO LOPEZ / CAFETERIA GETSEMANI",
-                "SANTOS MARISOL SANCHEZ / CAFETERIA ARCO IRIS.",
-                "MARIA ELENA ERAZO CASTANEDA / CAFETERIA METRO CAFE",
-                "ECSA OPERADORA DE EL SALVADOR / ESTACION ECSA EL MEDITERRANEO",
-                "OPERADORA DE EL SALVADOR, SA DE CV. UNO TRANSAL . ECSA",
-                "CORINA MARGARITA SOSA MENDEZ / PUMA POLIEDRO o DESVIO",
-                "CORINA MARGARITA SOSA MENDEZ / GASOLINERA PUMA",
-                "CARLOS FRANCISCO CIENFUEGOS ORTIZ / PANADERIA SAN LUIS",
-                "IRMA ANALIS CALVO / TIENDA SAN LUIS",
-                "D-GAS EL SALVADOR, SA de CV. LOURDES",
-                "FORZA ENERGY, SA de CV, Uno Pronto PASATIEMPO.",
-                "VISOR, SA de CV. / SUPER 7 PASATIEMPO"
+                "JUAN CARLOS MARTINEZ / RESTAURANTE BLUE BEACH",
+                "RAFAEL RENE CANALES / GASOLINERA UNO CORINTO",
+                "LETICIA MARGARITA DOMINGUEZ / CARNITAS MAMACUZ",
+                "CIREBA SA de CV / BUFALO WINGS",
+                "FORZA ENERGY, SA de CV / ATIQUIZAYA",
+                "LARROSA, SA de CV / SALA DE TE Y RECEPCIONES LARROSA SA de CV",
+                "DOS CRISTINAS, SA de CV / RESTAURANTE BASICO",
+                "OMAR RODRIGO LOPEZ MOLINA (ESTILO SALON) SUC.# 4",
+                "OMAR RODRIGO LOPEZ MOLINA (ESTILO SALON) SUC.# 5",
+                "OMAR RODRIGO LOPEZ MOLINA (ESENCIA SALON)",
+                "OMAR RODRIGO LOPEZ MOLINA (ESTILO SALON) SUC.# 6",
+                "ANGELICA MARITZA ORELLANA (ESTILO SALON) FRENTE PAVITO CRIOLLO SUC.# 1",
+                "ANGELICA MARITZA ORELLANA (ESTILO SALON) A LA PAR DE PAVITO CRIOLLO SUC.# 3",
+                "ANGELICA MARITZA ORELLANA (ESTILO SALON) CONTIGUO A MOVISTAR SUC.# 8",
+                "ANGELICA MARITZA ORELLANA (ESTILO SALON) ENTRE RAF Y MOTO YAMAHA SUC.# 9",
+                "ANGELICA MARITZA ORELLANA (ESTILO SALON) FRENTE A LA NEVERIA SUC.# 14",
+                "ANGELICA MARITZA ORELLANA (ESTILO SALON) PASILLO LOS CINES SUC.# 12",
+                "ANGELICA MARITZA ORELLANA (ESTILO SALON) A LA PAR DE BCO. IZALQUEÑO SAN MARTIN SUC.# 13",
+                "ESTILOS SALON, SA DE CV / METRO SUR SUC.# 2",
+                "ESTILOS SALON, SA DE CV / PLAZA MUNDO FRENTE A SIMAN SUC.# 7",
+                "ESTILOS SALON, SA DE CV / PLAZA MERLIOT SUC.# 10",
+                "ESTILOS SALON, SA DE CV / LAS CASCADAS SUC.# 11",
+                "LOPEZ GIRON VANESSA YOHANA / THE NAILS THERAPY",
+                "MARIA ELENA ERAZO / METROCAFÉ",
+                "CHICAS LOPEZ, JULISA RAQUEL / PIESITOS & MÁS",
+                "PANADERIA EL ROSARIO SA DE CV",
+                "HOTEL GRECIA REAL SA DE CV",
+                "YENI ELIZABETH ZAVALA / COCINARTE",
+                "ZULMA ELIZABETH ESCOBAR / BALSAMAR",
+                "ALMACENES BOU SA DE CV / CONSTITUCIÓN",
+                "ALMACENES BOU SA DE CV / CASA MATRIZ ADMINISTRACION",
+                "ALMACENES BOU SA DE CV / CASA MATRIZ BODEGA",
+                "ALMACENES BOU SA DE CV / METAPAN",
+                "ALMACENES BOU SA DE CV / SAN MIGUEL",
+                "FORZA ENERGY SA DE CV / PRONTO ATIQUIZAYA",
+                "ECSA, OPERADORA DE EL SALVADOR / PRONTO EL MEDITERRANEO"
             ],
             "San Vicente": [
                 "ANA MARIA MARTINEZ ALFARO / COMEDOR LAS DELICIAS",
                 "CLAUDIA MARCELA PASSASIN",
-                "MARIA DEL TRANSITO FIGUEROA",
+                "MARIA DEL TRANSITO FIGUEROA / TEXACO SAN PEDRO PERULAPAN",
+                "JUAN CARLOS ESCOBAR / COMEDOR LA GRANJA",
                 "HUEZO ALVARO ENRIQUE / RESTAURANTE OCOTEPEC",
                 "JUAN RAMON GONZALES BARQUERO",
                 "EVELYN ISABEL AMAYA // DELICIAS PIZZA",
-                "VILMA ELIZABETH LOPEZ DE MOLINA / RESTAURANTE NE-KAL"
+                "LILIAN MARIBEL MEJIA / COMEDOR EBENEZER",
+                "VILMA ELIZABETH LOPEZ DE MOLINA / RESTAURANTE NE-KAL",
+                "KAREN ILIANA RIVAS DE MENJIVAR / COMEDOR YOLAN",
+                "Meybell Amarylis Molina / Comedor La Estancia",
+                "Gloria Evelyn Gonzalez / Comedor Doña Mercedes",
+                "HECTOR MAURICIO ESCOBAR MERCADO / SHELL CUSCATLAN",
+                "NH. DISTRIBUIDORA GENERAL, SA de CV / RESTAURANTE",
+                "NH. DISTRIBUIDORA GENERAL, SA DE CV / TIENDA",
+                "AGUILAR DE PAZ, MILAGRO DE MARIA / RESTAURANTE LOS FOGONES DE MILAGRO",
+                "SOLEDAD BEATRIZ GONZALEZ / CAFETERIA",
+                "IDALIA COLOMBA CUELLAR / COMEDOR VISTA AL VOLCAN",
+                "EVELYN ELIZABETH MOLINA MEDRANO / TAQUERIA SALVAMEX",
+                "CARLOS ANTONIO AYALA TICAS / CARNITAS MIRADOR",
+                "MARIA LUISA TICAS / COMEDOR LAS CARNITAS",
+                "MARIA ESTER OVIEDO / RESTAURANTE RIVOLY",
+                "COORPORACION LAS PAVAS / REST. FINCA BUENA VISTA",
+                "REYNALDO ANTONIO FLORES QUINTANILLA / PANADERIA PASITAS",
+                "GRUPO HR MULTI INVERSIONES, SA de CV / TAQUERIA LA GROSERA",
+                "JOSE MANUEL GUZMAN / RESTAURANTE FINCA LA PAZ",
+                "ANA DEL ROSARIO ORELLANA / PANADERIA DIVINA PROVIDENCIA",
+                "RENE OSWALDO MARTINEZ GUILLEN / LA CURVA DE DOÑA MAGDALENA",
+                "NICOLASA JESENIA ROMERO / MERENDERO BRANDY",
+                "FORZA ENERGY, SA de CV / UNO PRONTO EL TRANSITO",
+                "FS. INVERSIONES, SA DE CV / TU PRIMERA TAZA",
+                "ROBKELL, SA de CV / TEXACO SAN VICENTE",
+                "MARIA DE JESUS VASQUEZ / MERENDERO GEMELA MARI",
+                "INVERSIONES LIL, SA DE CV / SUPER 7 LA LOMA",
+                "JACQUELINE YAMILET BONILLA MONGE / MERENDERO JACKY",
+                "PROCURACION DE NEGOCIOS SA de CV / SHELL AMAPULAPA",
+                "EFRAIN ANTONIO CORNEJO / RESTAURANTE ACAPULCO",
+                "INVERSIONES RIVERA, SA de CV / SUPER 7 LAS PAVAS",
+                "SOLEDAD BEATRIZ GONZALEZ / SORBETERIA",
+                "MC & SB, INVERSIONES, SA de CV / RESTAURANTE BOCA GRILL COJUTEPEQUE",
+                "LOS PEREGRINOS, SA de CV / SUPER 7 ILOBASCO",
+                "FORZA ENERGY, SA DE CV / PRONTO ZACATECOLUCA",
+                "MARIA MAGDALENA ANDRADE / MERENDERO CRUZITA",
+                "GLORIA MARLENE RAMIREZ DE LAZO / MERENDERO MERCEDITAS"
             ],
             "Sonsonate": [
-                "D-GAS EL SALVADOR, SA de CV. LOURDES",
-                "OPERADORA DE EL SALVADOR, SA DE CV. UNO TRANSAL",
+                "D-GAS, SA de CV / LOURDES",
+                "FORZA ENERGY, SA de CV / PRONTO LA JOYA",
+                "OPERADORA DE EL SALVADOR, SA DE CV / UNO TRANSAL . ECSA",
+                "LUIGEMI SA de CV / PUMA SONZACATE",
                 "ATAGRISA SC.de RL / PRODUCTOS LACTEOS SAN JULIAN",
-                "FORZA ENERGY, SA de CV, Uno Pronto PASATIEMPO.",
-                "HERNANDEZ RIVAS,VIDAL DE JESUS / UNO ATECOZOL",
+                "FORZA ENERGY, SA de CV / CAFETERIA COPAPAYO",
+                "FORZA ENERGY, SA de CV / Uno Pronto PASATIEMPO",
+                "HERNANDEZ RIVAS, VIDAL DE JESUS / UNO ATECOZOL",
                 "BCO. IZALQUEÑO DE LOS TRABAJADORES",
-                "GRUPO NSV, Limitada de capital Variable,SA de CV. / TEXACO PARAISA / TIENDA.",
-                "GRUPO NSV, Limitada de capital Variable,SA de CV. / TEXACO PARAISAL CAFETERIA.",
-                "ASOCIACIÓN AGAPE DE EL SALVADOR / REST.DOÑA LAURA .",
-                "GRUPO NSV, SA.de CV. / TEXACO MODELO.",
+                "FORZA ENERGY, SA DE CV / COPAPAYO TIENDA",
+                "GRUPO NSV, Limitada de capital Variable, SA de CV / TEXACO PARAISAL / TIENDA",
+                "GRUPO NSV, Limitada de capital Variable, SA de CV / TEXACO PARAISA / CAFETERIA",
+                "ASOCIACION AGAPE DE EL SALVADOR / REST. DOÑA LAURA",
+                "DISTRIBUIDORA DE LUBRICANTES Y COMBUSTIBLES, SA de CV",
+                "GRUPO NSV, SA DE CV / TEXACO MODELO",
                 "HERNANDEZ RIVAS, VIDAL DE JESUS / UNO LOS LEONES",
-                "BURGER HUOSE SA de CV.",
-                "FORZA ENERGY, SA DE CV. / COPAPAYO TIENDA .",
-                "GUTIRREZ DE SANCHEZ JUANA MARIA / COMEDOR EL PORTALITO",
-                "ABRAHAM ANTONIO HASBUN / CHIKEN STEAK",
-                "CORINA MARGARITA SOSA MENDEZ / PUMA POLIEDRO o DESVIO.",
-                "CARLOS FRANCISCO CIENFUEGOS ORTIZ / PANADERIA SAN LUIS",
-                "LOS PEREGRINOS, SA de CV. / PUMA NAHULINGO.",
-                "VILMA MILADY ORTIZ / LA CASONA GRILL.",
-                "FORZA ENERGY, SA de CV. / COPAPAYO CAFETERIA.",
-                "KATIA MARCELA MARIONA / REST. EBANO.",
-                "ECSA OPERADORA DE EL SALVADOR, SA DE CV. / UNO EL CAPULIN.",
-                "ECSA Operadora de El Salvador, SA de CV. / Pronto San Ramón.",
-                "MC & SB. Inversiones,SA de CV. / Boca Grill Lourdes.",
-                "Los Peregrinos, SA de CV. / Shell Café la nueva.",
-                "Los Peregrinos SA de CV. / Super 7 Izalco.",
-                "José Manuel Romero / Gran Plaza.",
-                "Forza Energy SA de CV. / Pronto la Joya."
+                "BURGER HOUSE",
+                "VISOR, SA de CV / SUPER 7 PASATIEMPO",
+                "GUTIERREZ DE SANCHEZ JUANA MARIA / COMEDOR EL PORTALITO",
+                "ABRAHAM ANTONIO HASBUN / CHICKEN STEAK",
+                "CORINA MARGARITA SOSA MENDEZ / PUMA EL DESVIO",
+                "LOS BLANCOS SA DE CV / PANADERIA SAN LUIS",
+                "VILMA MILADY ORTIZ / LA CASONA GRILL",
+                "ECSA OPERADORA DEL SALVADOR SA de CV / PRONTO SAN RAMON",
+                "ESPIGA DORADA, SA de CV / PAMPA ARGENTINA, SONSONATE NAHULINGO",
+                "MENA, SA de CV / ROADMARKET LA CAMPANA",
+                "ALMACENES BOU SUCURSAL SONSONATE",
+                "KATIA MARCELA MARIONA / REST. EBANO",
+                "LOS PEREGRINOS / SHELL CAFE LA NUEVA",
+                "LOS PEREGRINOS, SA de CV / PUMA NAHUILINGO",
+                "LOS PEREGRINOS, SA de CV / SUPER 7 IZALCO",
+                "MC & SB, INVERSIONES, SA de CV / BOCA GRILL LOURDES"
             ]
         };
 
-        // 2. CATÁLOGO COMPLETO DE PRODUCTOS (CÓDIGO -> NOMBRE)
+        // CATÁLOGO COMPLETO Y EXTRAÍDO DE LAS IMÁGENES
         const productos = {
-            "39001": "Caja de Papas Corte Recto Normal de 3/8 6/5 Libras",
-            "ACEITE002": "Aceite Spray lata de 400 ml 1 Lata",
-            "ACEITE003": "Aceite Cazuela Bidon 17.5 Lts",
-            "ACEITE009": "Aceite de Oliva y Soya Mezcla 1 Galón",
-            "MSL003": "Margarina Superline Caja 30 Libras 1/30 Libras",
-            "UNI016": "Mayonesa Cocinaro Hellmann's 1 Galón",
-            "UNI006": "Mayonesa Real Hellmann's 1 Galón",
-            "UNI009": "Salsa de Tomate Ketchup Hellmann's 1 Galón",
-            "UNI012": "Salsa de Tomate Naturas 2.2 Kg",
-            "UNI007": "Queso Cheddar Hellman's 1 Litro",
-            "UNI002": "Consome de Res Continental Bolsa 3 Kg",
-            "UNI003": "Consome de Pollo Continental Bolsa 3 Kg",
-            "UNI008": "Empanizador Continental Sobre 18 Sobres",
-            "UNI013": "Pure de Papa Knorr Bolsa 800 Gr",
-            "UNI015": "Maizena Fecula de Maiz Bolsa 2.3 Kg",
-            "UNI010": "Sopa de Tortillas Knorr Sobre 12 Sobres",
-            "UNI011": "Base de Tomate Deshidratado Knorr Bolsa 500 Gr",
-            "BEB14": "Te Flor de Manzanilla Mc Cormick Caja 100 Sobres",
-            "MAY003": "Mayonesa Gourmet Bote 1 Galón",
-            "MAY005": "Mayonesa Pura Gourmet en Bolsa 1 Galón",
-            "ST002": "Salsa de Tomate Gourmet Bolsa 1 Galón",
-            "ST003": "Salsa de Tomate Gourmet Bote 1 Galón",
-            "ST004": "Ketchup Kerns 1 Galón",
-            "MOST002": "Mostaza Gourmet Bolsa 1 Galón",
-            "MOST04": "Mostaza Gourmet Bote 1 Galón",
-            "SI03": "Salsa Inglesa Gourmet 1 Galón",
-            "SOY": "Salsa de Soya Gourmet 1 Galón",
-            "VIN001": "Vinagre Blanco 1 Galón",
-            "MC1": "Salsa de Tomate Gourmet Sachette 500 ud",
-            "ESP01": "Canela en Raja 1 Onza",
-            "ESP03": "Sal de Ajo 1 Libra",
-            "ESP04": "Sal de Cebolla 1 Libra",
-            "ESP06": "Empanizador para Mariscos y Pescado 1 Libra",
-            "ESP07": "Empanizador S.A. 1 Libra",
-            "CON001": "Consomé de Camaron Clase A Robertoni 5 Libras",
-            "CON002": "Consomé de Camaron Clase B Robertoni 1 Libra",
-            "CON003": "Consomé de Pollo Sabor Amigo Clase B 1 Libra",
-            "CON004": "Consomé de Res Sabor Amigo Clase B 1 Libra",
-            "CON005": "Consomé de Pollo Sabor Amigo Premiun 1 Kilo",
-            "CON006": "Consomé de Res Sabor Amigo Premiun 1 Kilo",
-            "CON007": "Sazón Completa Sabor Amigo 1 Kilo",
-            "CHI001": "Salsa de Chile Jalisco Bote 60 ml",
-            "CHI002": "Salsa de Chile Jalisco Bote 148 ml",
-            "CHI003": "Salsa de Chile Jalisco 1 Galón",
-            "CHI005": "Chile Jalisco Sobre Caja 500 Sobres",
+            // PRODUCTO CONGELADO
+            "39001": "Caja de Papas Corte Recto Normal de 3/8",
+            
+            // PRODUCTOS UNILEVER
+            "UNI016": "Mayonesa Cocineros Hellmann's",
+            "UNI006": "Mayonesa Real Hellmann's",
+            "UNI009": "Salsa de Tomate Ketchup Hellmann's (4.2Kg)",
+            "UNI007": "Queso Cheddar Hellman's",
+            "UNI002": "Consome de Res Continental (6.6 Lbs)",
+            "UNI003": "Consome de Pollo Continental (6.6 Lbs)",
+            "UNI008": "Empanizador Continental - Sobre 60 Gr c/u",
+            "UNI013": "Pure de Papa Knorr - Bolsa de 800 Gr",
+            "UNI015": "Maizena - Fecula de Maiz - Bolsa de 2.3 Kg",
+            "UNI010": "Sopa de Tortillas Knorr - Sobre 60 Gr c/u",
+            "UNI011": "Base de Tomate Deshidratado Knorr, Bolsa 500gr",
+
+            // TE EN INFUSION
+            "BEB14": "Te Flor de Manzanilla (McCormick), Caja 100 Sobres",
+
+            // ADEREZOS Y SALSAS
+            "MAY003": "Mayonesa Gourmet Bote",
+            "MAY005": "Mayonesa Pura Gourmet en Bolsa",
+            "ST002": "Salsa de Tomate Gourmet Bolsa",
+            "ST003": "Salsa de Tomate Gourmet Bote",
+            "ST004": "Ketchup Kerns",
+            "MOST002": "Mostaza Gourmet Bolsa",
+            "MOST04": "Mostaza Gourmet Bote",
+            "SI03": "Salsa Inglesa Gourmet",
+            "SOY": "Salsa de Soya Gourmet",
+            "SOY01": "Salsa de Soya Sobre",
+            "VIN001": "Vinagre Blanco",
+            "MC1": "Salsa de Tomate Gourmet Sachette (Sobre)",
+
+            // ESPECIES
+            "ESP01": "Canela en Raja",
+            "ESP03": "Sal de Ajo",
+            "ESP04": "Sal de Cebolla",
+            "ESP06": "Empanizador para Mariscos y Pescado",
+            "ESP07": "Empanizador S.A.",
+
+            // ACEITE Y MANTECAS
+            "ACEITE002": "Aceite Spray lata de 400 ml",
+            "ACEITE003": "Aceite Cazuela Bidon",
+            "ACEITE009": "Aceite de Oliva y Soya Mezcla",
+            "MSL": "Margarina Superline Caja 30 Libras",
+            "MSL01": "Margarina Superline Caja 24 Libras",
+
+            // CONSOMES
+            "CON001": "Consomé de Camaron Clase A, Robertoni",
+            "CON002": "Consomé de Camaron Clase B, Robertoni",
+            "CON003": "Consomé de Pollo Sabor Amigo Clase B",
+            "CON004": "Consomé de Res Sabor Amigo Clase B",
+            "CON005": "Consomé de Pollo Sabor Amigo Premiun",
+            "CON006": "Consomé de Res Sabor Amigo Premiun",
+            "CON007": "Sazón Completa Sabor Amigo",
+
+            // CHILES Y SALSA INGLESA
+            "CHI001": "Salsa de Chile Jalisco Bote de 60 ml",
+            "CHI002": "Salsa de Chile Jalisco Bote de 148 ml",
+            "CHI003": "Salsa de Chile Jalisco",
+            "CHI005": "Chile Jalisco Sobre, Caja 500 Sobres de 5 Ml",
             "SI02": "Salsa Inglesa Bote 148 Ml",
-            "SI01": "Salsa Inglesa Mc Cormick 1 Galón",
-            "BEB42": "Nectar Melocoton Lata 24 uds",
-            "BEB43": "Nectar de Pera Lata 24 uds",
-            "BEB44": "Nectar de Piña Lata 24 uds",
-            "BEB48": "Nectar de Manzana Lata 24 uds",
-            "BEB41": "Jugo de Tomate Lata 48 uds",
-            "BEB12": "Horchata con Leche Bolsa 5 Libras",
-            "BEB22": "Horchata de Morro Bolsa 5 Libras",
-            "LECH01": "Leche Condensada Nestle 1 Lata",
-            "BIO001": "Gabacha Mini Biodegradable 1000 uds",
-            "BIO002": "Gabacha # 1 Biodegradable 1000 uds",
-            "BIO003": "Gabacha # 2 Biodegradable 1000 uds",
-            "BIO004": "Gabacha # 3 Biodegradable 1000 uds",
-            "REM001": "Caja Removedor Bio P-Life Diapack 1000 uds",
-            "PAJ005": "Pajilla Biodegradable Forrada Caja 500",
-            "DES032": "Pajilla Forrada BIO 2500 und",
+            "SI01": "Salsa Inglesa Mc Cormick",
+
+            // NECTAR EN LATA
+            "BEB42": "Nectar Melocoton Lata",
+            "BEB43": "Nectar de Pera Lata",
+            "BEB44": "Nectar de Piña Lata",
+            "BEB48": "Nectar de Manzana Lata",
+
+            // JUGOS DE TOMATE
+            "BEB41": "Jugo de Tomate Lata",
+
+            // HORCHATAS
+            "BEB12": "Horchata con Leche Bolsa",
+            "BEB22": "Horchata de Morro Bolsa",
+
+            // LECHES
+            "LECH01": "Leche Condensada Nestle",
+
+            // AZUCAR, SAL, CREMORA, CAFE, FILM, ALUMINIO, PAJILLAS
             "AZU004": "Azucar Splenda Bolsa de 100 Ud",
-            "AZU005": "Caja de Azucar Sobre Generica 16/150 uds",
-            "CAJA": "Caja de Sal en Sobre 20/500 uds",
-            "PIM": "Bolsa de Pimienta en Sobrecitos 1/500 uds",
-            "CAFE01": "Café de Ahuachapan 1 Libra",
-            "CREM002": "Cremora Cremafe Sobrecitos 1/200 uds",
-            "CREM003": "Cremora Coffe Mate sobre individual 1/200 uds",
-            "KIM001": "Servilleta Scott Dispensador 24/100 uds",
-            "KIM007": "Wypall x 80 color",
-            "KIM011": "Papel Higienico Interfoliado Scott 36/250 uds",
-            "KIM018": "Toalla Roll Scott Slimroll WH 6X580",
-            "KIM027": "Jumbo Roll Manila",
-            "TER010": "Bolsa 1 libra",
-            "TER012": "Bolsa 5 libras",
-            "TER030": "Bolsa Gabacha # 1",
-            "TER031": "Bolsa Gabacha # 2",
-            "TER015": "Bolsa Gabacha # 3",
-            "TER001": "Bolsa Jardinera",
-            "TER004": "Bolsa 1/2 Jardin",
-            "TER021": "Bolsa Charamusca",
-            "TER002": "Polipel Rollo",
-            "DES017": "Bandeja 8x8 c/d",
-            "DES021": "Bandeja Hot-Dog",
-            "DES015": "Plato N° 9",
-            "DES013": "Plato N° 6",
-            "DES030": "Vaso 8oz.",
-            "DES003": "Tenedor N° 4",
-            "DES002": "Cuchara N° 4",
-            "PAJ001": "Pajilla Forrada",
-            "QUI02": "Jabón Perlado",
-            "QUI010": "Lejia 6%",
+            "AZU005": "Caja de Azucar Sobre Generica",
+            "CAJA": "Caja de Sal en Sobre",
+            "PIM": "Bolsa de Pimienta en Sobrecitos",
+            "CAFE01": "Café de Ahuachapan",
+            "CREM002": "Cremora Cremafe Sobrecitos",
+            "CREM003": "Cremora Coffe Mate sobre individual",
+            "Filtro 02": "Filtro para Cafetera Industrial",
+            "REM002": "Removedores en Bolsa 1 Libra",
+            "PAP002": "Papel Delipaper 500 Hojas",
+            "PAA001": "Papel Aluminio 18 X 500",
+            "PAA002": "Papel Aluminio 12 X 500",
+            "PAF001": "Papel Film 18 X 2000",
+            "PAF002": "Papel Film 12 X 2000",
+            "DES090": "Papel Film 18 X 1500",
+            "DES089": "Papel Film 12 X 1500",
+            "PAJ001": "Fardo de Pajilla Forrada",
+            "PAJ002": "Fardo de Pajilla Transparente",
+            "PAJ003": "Fardo de Pajilla Forrada",
+            "DES039": "Palillo de Dientes Forrado",
+            "DES067": "Cajita de Palillo de Dientes Premier (para liquidar)",
+            "DES073": "Palillos para Pinchos",
+            "DES036": "Cajita de Palillo de Dientes Premier",
+            "CREM04": "Crema de Coco Lata",
+            "CHERRY01": "Cherry con Tallo",
+            "BBQ": "BBQ Sauce Kraft - 80 oz / 5 Lb",
+            "QC": "Queso Cheddar Club Select",
+            "QC02": "Queso Cheddar Chef-mate",
+            "CHI004": "Chile Jalapeño en Rodaja 6 Libras",
+            "HONGO": "Champiñones en Piezas",
+            "PAST01": "Pasta de Tomate",
+            "PAST02": "Pasta de Tomate Bolsa",
+            "FANS019": "Maiz Dulce",
+            "FANS021": "Guisantes o Chicharo",
+            "PAA003": "Papel Aluminio interfoliado (12\"x10.75\")",
+
+            // DEPOSITOS CON SUS TAPADERAS
+            "DES047": "Deposito 1 oz Transparente Solo Cup",
+            "DES048": "Tapadera 1oz Transparente Solo Cup",
+            "DES035": "Deposito de 2.5 Set tapa incluida",
+
+            // BIODEGRADABLE
+            "REM001": "Caja Removedor Bio P-Life Diapack",
+            "PAJ005": "Pajilla Biodegradable Forrada",
+            "DES032": "Pajilla Forrada BIO 2500 und",
+
+            // DESECHABLES BEBIDA CALIENTE
+            "NEST13": "Vaso 8 oz Bebida Caliente con Agarradera",
+            "NEST14": "Vaso 8 oz Bebida Caliente - Doble Pared",
+            "NEST09": "Tapa 8 oz - Solo Cup",
+            "NEST10": "Vaso 12 oz Bebida Caliente",
+            "NEST24": "Vaso 12 oz Solo Cup Beb Caliente",
+            "NEST17": "Vaso 16 oz Solo Cup Beb Caliente",
+            "NEST18": "Tapa 12 y 16 oz - Solo Cup",
+
+            // DESECHABLES PARA FROZEN Y BEBIDAS FRIAS
+            "NEST19": "Vaso 12 oz Cristal",
+            "NEST20": "Vaso 14 oz Cristal",
+            "NEST21": "Vaso 16 oz Cristal",
+            "NEST22": "Tapa Domo 12 - 14 - 16 onz",
+            "PAJ004": "Pajilla Frozen Forrada 50 Paquetes de 25 Uds",
+            "DES092": "Vaso Polipapel Decorado 16 oz con Tapadara",
+            "DES094": "Vaso Polipapel Decorado 21 oz con Tapadara",
+            "NEST23": "Tapa Plana para vaso cristal 12 - 14 - 16 onz",
+
+            // CONOS - COBERTOR - GUANTES PARA ALIMENTOS
+            "QUI018": "Guantes de Alimentos Caja",
+            "QUI052": "Guante de Latex S",
+            "QUI053": "Guante de Latex M",
+            "QUI054": "Guante de Latex L",
+            "QUI034": "Guante de Nitrilo - Negro talla M",
+            "QUI035": "Guante de Nitrilo - Negro talla L",
+            "QUI015": "Redecillas Negras",
+            "QUI028": "Redecillas Negras de Nylon",
+            "DES029": "Cobertor Acordeon Blanco Tipo Gusano",
+            "DES046": "Cono Encerado 5000 Udades",
+            "DES109": "Cono Gigante de 4.5 onz",
+
+            // TAPADERAS PARA VASOS
+            "DES025": "Tapadera para Vaso 6 oz",
+            "DES026": "Tapadera para Vaso 8 oz",
+            "DES027": "Tapadera para Vaso 10 y 12 oz",
+            "DES070": "Tapadera para Vaso 16 oz",
+
+            // DESECHABLES
+            "DES001": "Cuchara Sopera",
+            "DES002": "Cuchara # 4",
+            "DES003": "Tenedor # 4",
+            "DES004": "Cuchillo # 4",
+            "DES005": "Cuchara # 2",
+            "DES006": "Tenedor # 2",
+            "DES099": "Kit de Tenedor - Cuchillo y Servilleta - Blanco",
+            "DES102": "Kit de Tenedor - Cuchillo y Servilleta - Negro",
+            "DES105": "Combo Cuchara Sopera Servilleta",
+            "DES106": "Combo Cucharita # 2",
+
+            // VASOS
+            "DES022": "Vaso Dipsa 4 oz",
+            "DES056": "Vaso Dipsa 6 oz",
+            "DES030": "Vaso Dipsa 8 oz",
+            "DES011": "Vaso Dipsa 10 oz",
+            "DES012": "Vaso Dipsa 12 oz",
+            "DES023": "Vaso Dipsa 16 oz",
+
+            // PLATOS Y SOPEROS
+            "DES013": "Plato # 6 Fom Liso 500 Uds",
+            "DES014": "Plato # 7 Fom Liso 500 Uds",
+            "DES015": "Plato # 9 Fom Liso 500 Uds",
+            "DES016": "Plato Hondo # 6 Fom Liso 500 Uds",
+            "DES018": "Sopero 32 oz Caja de 10 Paquetes de 25 Uds",
+            "DES019": "Sopero 16 oz Caja de 20 Paquetes de 25 Uds",
+
+            // BANDEJAS
+            "DES021": "Bandeja para Hot Dog 500 Uds",
+            "DES088": "Bandeja # 1",
+            "DES007": "Bandeja # 2 para Taco",
+            "DES076": "Bandeja 7 x 7 Con Division 200 Uds",
+            "DES017": "Bandeja 8x8 Con Division -",
+            "DES041": "Bandeja 8x8 Lisa -",
+            "DES031": "Bandeja 9x9 Con Division -",
+            "DES042": "Bandeja 9x9 Lisa -",
+            "DES020": "Bandeja 6x6 Fardo",
+            "DES091": "Bandeja 6 x 6 Delibisagra Transparente 200 Uds",
+            "DES104": "Bandeja Delibisagra para postre Triangular",
+
+            // SERVILLETAS
+            "SER001": "Servilleta Dispensador Rectangular",
+            "SER002": "Servilleta Cuadrada",
+            "SER005": "Servilleta Cuadrada TERSO",
+            "KIM001": "Servilleta Scott Dispensador",
+            "KIM002": "Servilleta Scott Cuadrada",
+            "KIM017": "Servilleta Scott de Lujo",
+            "KIM020": "Servilleta Kleenex Interfoliada Pop Up Doble Hoja",
+            "KIM037": "Servilleta Kleenex POP UP FS doble hoja",
+
+            // BOLSAS
+            "TER001": "Bolsa Jardinera Negra 34x50",
+            "TER004": "Bolsa 1/2 Jardin Negra",
+            "TER016": "Bolsa Jardinera Transparente",
+            "TER017": "Bolsa 1/2 Jardin Transparente",
+            "TER014": "Bolsa Higienica Colores 19x27",
+            "TER026": "Bolsa Higienica Negra 17x27",
+            "TER013": "Bolsa Gabacha Mini Blanca Termoflex",
+            "TER030": "Bolsa de Gabacha Blanca # 1",
+            "TER031": "Bolsa de Gabacha Blanca # 2",
+            "TER015": "Bolsa de Gabacha Blanca # 3",
+            "TER005": "Bolsa Blanca 8x12 Sin Gabacha",
+            "TER006": "Bolsa Blanca 10x14 Sin Gabacha",
+            "TER021": "Bolsa Transparente para Charamusca 3x8",
+            "TER010": "Bolsa Transparente 1 Lb - 5x8",
+            "TER011": "Bolsa Transparente 2 Lb - 6x10",
+            "TER022": "Bolsa Transparente 3 Lb - 7x11",
+            "TER023": "Bolsa Transparente 4 Lb - 8x12",
+            "TER012": "Bolsa Transparente 5 Lb - 9x14",
+            "TER019": "Bolsa Transparente 12 Lb - 12x18",
+            "TER008": "Bolsa Transparente 25 Lb - 14x25",
+            "TER003": "Rollo de Bolsa 10X13 (Traslucida)",
+            "TER002": "Rollos de Polipel Cortado",
+            "STRECH": "Strech Film",
+
+            // SANITIZANTE
+            "QUI097": "Sanitizante DES-5000",
+            "QUI099": "Sanitizante D-5000 a base de Alcohol",
+            "ATOM01": "Atomizador de 16 on",
+            "ATOM02": "Atomizador de 32 on",
+
+            // INSECTICIDAS
+            "QUI041": "Insect Moscas y Zancudos (Raid Aerosol)",
+
+            // AMBIENTALES
+            "QUI058": "Deleite Floral y Frutos Rojos Ambiental Glade Spray 9 oz",
+            "QUI059": "Manzana/Canela Ambiental Glade Spray 9 oz",
+            "QUI060": "Lavanda Ambiental Glade Spray 9 oz",
+            "QUI061": "Paraiso Azul Ambiental Glade Spray 9 oz",
+            "QUI062": "Mora Radiante Ambiental Glade Spray 9 oz",
+            "QUI063": "Hawaiian Breeze Glade Spray 9 oz",
+            "QUI064": "Sandia Refrescante Glade Spray 9 oz",
+            "QUI042": "Aplicador Glade Automatico más Repuesto",
+            "QUI046": "Repuesto Glade Manzana Canela",
+            "QUI047": "Repuesto Glade Paraizo Azul",
+            "QUI048": "Repuesto Glade Mora Radiante",
+            "QUI049": "Repuesto Glade Frutos Rojos",
+            "QUI050": "Repuesto Aplicador Abrazos Vainilla - Lavanda Vainilla",
+            "QUI051": "Repuesto Aplicador Hawaian Breeze",
+
+            // UTENSILIOS DE LIMPIEZA
+            "DES028": "Mascon Verde",
+            "QUI013": "Mascon Esponja Scotch Paq 2 un",
+            "QUI029": "Mascon Doble Cara 2 Pack",
+            "QUI030": "Mascon Alambre",
+            "QUI031": "Mascon Negro para Parilla",
             "DES034": "Escoba Super Nena",
-            "DES044": "Trapeador de toalla",
-            "SER001": "Servilleta Disp. 1/24",
-            "QUI034": "Guante Nitrilo Negro M",
-            "QUI071": "Mopa Trapeador",
-            "REM02": "Removedor libra"
+            "DES049": "Palo Repuesto de Escoba",
+            "DES037": "Cepillo Largo para Piso",
+            "DES044": "Trapeador de Toalla",
+            "DES072": "Soporte Angular para Trapeador",
+            "DES075": "Cepillo para Inodoro",
+            "DES074": "Pala Recogedora de Basura",
+            "DES071": "Recolector de Liquido para Piso",
+            "QUI074": "Cepillo de Plancha",
+            "DES033": "Microfibra Amarilla",
+
+            // MOPAS, MECHAS Y PALOS PARA MOPAS
+            "QUI066": "Mecha Regular Azul",
+            "QUI067": "Mecha Natural",
+            "QUI071": "Mopa Mecha Fina",
+            "QUI072": "Marco para Mopa",
+            "QUI073": "Palo Conector para Mopa",
+            "QUI078": "Palo para Mecha Cabeza Plastica",
+
+            // DESINFECTANTES Y OTROS QUIMICOS (¡Aquí está QUI009!)
+            "JAB003": "Jabon Maya Paquete de 12 Unidades",
+            "QUI001": "Jabón Liquido",
+            "QUI002": "Jabón Perlado Florar",
+            "QUI026": "Jabón Perlado Sandia",
+            "QUI032": "Jabón Perlado Menta",
+            "QUI036": "Jabón Perlado Fresa",
+            "QUI037": "Jabón Perlado Melocoton",
+            "QUI039": "Jabón Perlado Coco",
+            "QUI040": "Jabón Perlado Neutro (sin aroma ni color)",
+            "QUI044": "Jabón Perlado Manzana Verde",
+            "QUI003": "Desinfectante para Piso Limon",
+            "QUI004": "Desinfectante para Piso Manzana",
+            "QUI005": "Desinfectante para Piso Manzana Canela",
+            "QUI006": "Desinfectante para Piso Lavanda",
+            "QUI007": "Desinfectante para Piso Canela",
+            "QUI009": "Desinfectante para Piso Chicle",
+            "QUI012": "Desinfectante para Piso Cherry",
+            "QUI017": "Desinfectante para Piso Talco",
+            "QUI024": "Desinfectante para Piso Floral",
+            "QUI025": "Desinfectante para Piso Fresa",
+            "QUI068": "Desinfectante para Piso Citronela",
+            "QUI010": "Lejia",
+            "QUI011": "Cera Liquida para Piso",
+            "QUI022": "Limpia Vidrios",
+            "QUI020": "Limpia Vidrios con Atomizador 670 Ml",
+            "QUI021": "Pastilla para Inodoro 1.76 oz / 50 Grs",
+            "QUI016": "Alcohol Gel",
+            "QUI033": "Desengrasante Multiusos Olimpo Atomizador",
+            "QUI043": "Mr Musculo Antigrasa Naranja Atomizador",
+
+            // DETERGENTES Y JABONES
+            "QUI019": "Detergente Larianza con Aroma",
+            "QUI081": "Detergente Industrial Larianza - sin aroma",
+            "QUI065": "Jabon Liquido Lava ROPA - sin aroma ni color",
+            "QUI038": "Lavaplatos en Tarro",
+            "QUI014": "Jabon Liquido Lava Platos",
+            "QUI055": "Guante Amarillo para Limpieza talla M",
+            "QUI056": "Guante Amarillo para Limpieza talla L",
+
+            // PAPEL HIGIENICO
+            "KIM025": "Papel Higienico Scott- rollito (200 HD)",
+            "KIM015": "Papel Higienico Kleenex - rollito C/Aroma (450 HD)",
+            "KIM004": "Papel Higienico Scott Jumbo Roll 1 Hoja",
+            "KIM005": "Papel Higienico Scott Express Bolsa 1 Hoja",
+            "KIM027": "Papel Higienico Express Color Marfil 1 Hoja",
+            "KIM029": "Papel Higienico Scott 1 Hoja 8x500 Mts",
+            "KIM006": "Papel Higienico Kleenex Jumbo Roll 2 Hojas",
+            "KIM051": "Papel Higienico Scott Marfil 2 Hojas",
+            "KIM026": "Papel Higienico JRT Kleenex HD (Inventario Limitado)",
+            "KIM028": "Papel Higienico Scott CenterPull Doble Hoja",
+            "KIM011": "Papel Higienico Interfoliado Scott (Descontinuado)",
+            "KIM063": "Papel Higienico Mini JRT 6x4x150mt (Para liquidar)",
+
+            // PAPEL TOALLA
+            "KIM008": "Toalla Interfoliada Kleenex Premium 2 hojas",
+            "KIM012": "Toalla Interfoliada Kleenex HD",
+            "KIM022": "Toalla Scott Interfoliada",
+            "KIM014": "Toalla Scott Mayordomo 24x1x95h",
+            "KIM050": "Toalla Scott Roll ECO 1 Hoja (opcion Café o Blanca)",
+            "KIM013": "Toalla Kleenex Roll Towels (1080) 130 Mts",
+            "KIM003": "Toalla Scott Jumbo para Manos (1005)",
+            "KIM018": "Toalla Roll Scott Slimroll WH 6X580 pies",
+            "KIM088": "Papel Toalla Scott Basic Airflex",
+            "KIM023": "Kit Toalla Scott + Dispensador 4x200mts",
+            "KIM033": "Papel Toalla Scott CenterPull 1 Hoja 200 mts",
+
+            // WYPALLS
+            "KIM082": "Wypall Azul X80 Paños de Limpieza 35x42 cm",
+            "KIM083": "Wypall Rojo X80 Paños de Limpieza 35x42 cm",
+            "KIM084": "Wypall Amarillo X80 Paños de Limpieza 35x42 cm",
+            "KIM085": "Wypall Verde X80 Paños de Limpieza 35x42 cm",
+            "KIM086": "Wypall X 50- Paños de Limpieza Descartable Azul",
+            "KIM087": "Wypall X 50- Paños de Limpieza Descartable Rojo",
+            "KIM047": "Wypall X80 Antibacterial Precorte",
+            "KIM039": "Wypall X 70 Jumbo Roll",
+            "KIM052": "Wypall L10 Food Contact fardo 6x 500 hojas",
+            "KIM038": "Wypall L10 Paquetito x 200 toallas",
+            "KIM042": "Wypall Scott paquetico x 150 toallas",
+
+            // FACIALES, JABONES Y BACTISAN
+            "KIM010": "Facial Kleenex Ejecutivo",
+            "KIM032": "Facial Kleenex Junior",
+            "KIM021": "Facial Kleenex Cubo",
+            "KIM019": "Jabon Scott Gentle Spray 400 ml",
+            "KIM036": "Jabon Scott en Spray Antibacterial 400 Ml",
+            "KIM030": "Jabon Scott Gentle Spray 800 ml",
+            "KIM035": "Jabón en Espuma Dermo 800 ml",
+            "KIM009": "Jabon Antibacterial Espuma 800 ml",
+            "KIM069": "Jabón Espuma Dermo 4 Electronico 1000 Ml",
+            "KIM016": "Bactisan Spray 400 Ml",
+            "KIM034": "Jabon Scott sin Olor/Color Spray 400 ml",
+            "KIM024": "Bactisan Espuma Electronico 1000ml",
+
+            // DISPENSADORES KCP
+            "DIS005": "Dispensador Jumbo Roll Higienico - KCC",
+            "DIS007": "Dispensador Jabon Spray 400 ML - KCC",
+            "DIS003": "Dispensador Jabon Espuma Dermo 800 ml - KCC",
+            "DIS006": "Dispensador Toalla Codo - KCC",
+            "DIS009": "Dispensador Toalla Slim - KCC",
+            "DIS008": "Dispensador Bactisan Spray 400 ML - KCC",
+            "DIS011": "Dispensador Toalla Sanitouch - KCC",
+            "DIS012": "Dispensador Jabon Spray 800 ml - KCC",
+            "DIS002": "Dispensador Toalla Interfoliada KCC",
+            "DIS014": "Dispensador Servilletas Pedestal KCC",
+            "DIS016": "Dispensador Servilletas Advertaising KCC",
+            "DIS013": "Dispensador Pap Higienico Centerpull",
+
+            // PRODUCTOS ENCANTO
+            "ALAS02": "Papel Higienico Encanto 1 Hoja",
+            "ALAS03": "Papel Higienico Encanto Hoja Sencilla",
+            "ALAS04": "Papel Higienico Encanto Doble Hoja",
+            "ALAS05": "Papel Toalla Encanto (2 pack)",
+            "ALAS06": "Papel Toalla Mayordomo Carmens",
+
+            // DISPENSADORES ALAS
+            "DIS001": "Dispensador de Papel Higienco Roll",
+            "DIS004": "Dispensador de Papel Toalla Roll Palanca"
         };
 
         // Cargar Clientes según la Zona elegida
@@ -288,7 +655,7 @@
             }
         }
 
-        // Agregar Fila Ilimitada a la Tabla
+        // Agregar Fila a la Tabla
         function agregarFila() {
             const tbody = document.getElementById("cuerpoTabla");
             const tr = document.createElement("tr");
@@ -296,7 +663,7 @@
 
             tr.innerHTML = `
                 <td class="p-2">
-                    <input type="text" placeholder="Ej: UNI016" oninput="autocompletarProducto(this)" 
+                    <input type="text" placeholder="Ej: QUI009" oninput="autocompletarProducto(this)" 
                         class="w-full p-2 border rounded uppercase focus:ring-1 focus:ring-red-500 text-xs md:text-sm">
                 </td>
                 <td class="p-2">
@@ -344,10 +711,10 @@
             document.getElementById("selectZona").value = "";
             document.getElementById("selectCliente").innerHTML = '<option value="">-- Seleccione primero una zona --</option>';
             document.getElementById("cuerpoTabla").innerHTML = "";
-            agregarFila(); // Deja una fila vacía por defecto
+            agregarFila();
         }
 
-        // OBTENER DATOS PARA EXPORTACIÓN
+        // Obtener Datos para Exportación
         function obtenerDatosTabla() {
             const zona = document.getElementById("selectZona").value;
             const cliente = document.getElementById("selectCliente").value;
@@ -369,7 +736,7 @@
             return { zona, cliente, items };
         }
 
-        // EXPORTAR A EXCEL
+        // Exportar a Excel
         function exportarExcel() {
             const { zona, cliente, items } = obtenerDatosTabla();
             if (!cliente) { alert("Por favor seleccione un cliente."); return; }
@@ -390,7 +757,7 @@
             XLSX.writeFile(wb, `Pedido_${cliente}.xlsx`);
         }
 
-        // EXPORTAR A PDF
+        // Exportar a PDF
         function exportarPDF() {
             const { jsPDF } = window.jspdf;
             const { zona, cliente, items } = obtenerDatosTabla();
@@ -413,7 +780,7 @@
             doc.save(`Pedido_${cliente}.pdf`);
         }
 
-        // EXPORTAR A WORD
+        // Exportar a Word
         function exportarWord() {
             const { zona, cliente, items } = obtenerDatosTabla();
             if (!cliente) { alert("Por favor seleccione un cliente."); return; }
@@ -442,7 +809,7 @@
             a.click();
         }
 
-        // EXPORTAR A BLOC DE NOTAS (.TXT)
+        // Exportar a Bloc de Notas (.txt)
         function exportarTXT() {
             const { zona, cliente, items } = obtenerDatosTabla();
             if (!cliente) { alert("Por favor seleccione un cliente."); return; }
@@ -473,7 +840,6 @@
             a.click();
         }
 
-        // Inicializar con 1 fila por defecto al cargar
         window.onload = function() {
             agregarFila();
         };
