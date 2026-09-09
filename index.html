@@ -42,6 +42,8 @@
                     <option value="San Salvador">SAN SALVADOR</option>
                     <option value="San Vicente">SAN VICENTE</option>
                     <option value="Sonsonate">SONSONATE</option>
+                    <option value="La Colita Costa del Sol">LA COLITA COSTA DEL SOL</option>
+                    <option value="Santa Ana/Metapán">SANTA ANA/METAPÁN</option>
                 </select>
             </div>
 
@@ -107,7 +109,6 @@
                 "RAFAEL RENE CANALES / GASOLINERA UNO CORINTO",
                 "LETICIA MARGARITA DOMINGUEZ / CARNITAS MAMACUZ",
                 "CIREBA SA de CV / BUFALO WINGS",
-                "FORZA ENERGY, SA de CV / ATIQUIZAYA",
                 "LARROSA, SA de CV / SALA DE TE Y RECEPCIONES LARROSA SA de CV",
                 "DOS CRISTINAS, SA de CV / RESTAURANTE BASICO",
                 "OMAR RODRIGO LOPEZ MOLINA (ESTILO SALON) SUC.# 4",
@@ -133,12 +134,7 @@
                 "YENI ELIZABETH ZAVALA / COCINARTE",
                 "ZULMA ELIZABETH ESCOBAR / BALSAMAR",
                 "ALMACENES BOU SA DE CV / CONSTITUCIÓN",
-                "ALMACENES BOU SA DE CV / CASA MATRIZ ADMINISTRACION",
-                "ALMACENES BOU SA DE CV / CASA MATRIZ BODEGA",
-                "ALMACENES BOU SA DE CV / METAPAN",
-                "ALMACENES BOU SA DE CV / SAN MIGUEL",
-                "FORZA ENERGY SA DE CV / PRONTO ATIQUIZAYA",
-                "ECSA, OPERADORA DE EL SALVADOR / PRONTO EL MEDITERRANEO"
+                "ALMACENES BOU SA DE CV / SAN MIGUEL"
             ],
             "San Vicente": [
                 "ANA MARIA MARTINEZ ALFARO / COMEDOR LAS DELICIAS",
@@ -170,7 +166,6 @@
                 "ANA DEL ROSARIO ORELLANA / PANADERIA DIVINA PROVIDENCIA",
                 "RENE OSWALDO MARTINEZ GUILLEN / LA CURVA DE DOÑA MAGDALENA",
                 "NICOLASA JESENIA ROMERO / MERENDERO BRANDY",
-                "FORZA ENERGY, SA de CV / UNO PRONTO EL TRANSITO",
                 "FS. INVERSIONES, SA DE CV / TU PRIMERA TAZA",
                 "ROBKELL, SA de CV / TEXACO SAN VICENTE",
                 "MARIA DE JESUS VASQUEZ / MERENDERO GEMELA MARI",
@@ -182,7 +177,6 @@
                 "SOLEDAD BEATRIZ GONZALEZ / SORBETERIA",
                 "MC & SB, INVERSIONES, SA de CV / RESTAURANTE BOCA GRILL COJUTEPEQUE",
                 "LOS PEREGRINOS, SA de CV / SUPER 7 ILOBASCO",
-                "FORZA ENERGY, SA DE CV / PRONTO ZACATECOLUCA",
                 "MARIA MAGDALENA ANDRADE / MERENDERO CRUZITA",
                 "GLORIA MARLENE RAMIREZ DE LAZO / MERENDERO MERCEDITAS"
             ],
@@ -219,11 +213,26 @@
                 "LOS PEREGRINOS, SA de CV / PUMA NAHUILINGO",
                 "LOS PEREGRINOS, SA de CV / SUPER 7 IZALCO",
                 "MC & SB, INVERSIONES, SA de CV / BOCA GRILL LOURDES"
+            ],
+            "La Colita Costa del Sol": [
+                "Forza Energy SA de CV. Pronto El Tránsito.",
+                "Forza Energy SA de CV. Pronto Zacatecoluca."
+            ],
+            "Santa Ana/Metapán": [
+                "Forza Energy SA de CV. Pronto Atiquizaya.",
+                "ECSA Operadora de El Salvador SA de CV. Pronto el Mediterráneo.",
+                "Almacenes Bou. SA de CV casa matriz. Administración.",
+                "Almacenes Bou. SA de CV casa matriz. Bodega.",
+                "Almacenes Bou. SA de CV. Santa Ana centro.",
+                "Almacenes Bou. SA de CV. Metapán.",
+                "Inversiones Maren. SA de CV. Pronto Santa Ana centro."
             ]
         };
 
         // CATÁLOGO COMPLETO
         const productos = {
+            "PAP003": "PAPAEL TOALLA G&R 250 MTS",
+            "PAP004": "PAPEL HIGENICO G&R 250 MTS",
             "39001": "Caja de Papas Corte Recto Normal de 3/8",
             "UNI016": "Mayonesa Cocineros Hellmann's",
             "UNI006": "Mayonesa Real Hellmann's",
@@ -583,7 +592,7 @@
 
             tr.innerHTML = `
                 <td class="p-2">
-                    <input type="text" placeholder="Ej: QUI009" oninput="autocompletarProducto(this)" 
+                    <input type="text" placeholder="Ej: PAP003" oninput="autocompletarProducto(this)" 
                         class="w-full p-2 border rounded uppercase focus:ring-1 focus:ring-red-500 text-xs md:text-sm">
                 </td>
                 <td class="p-2">
